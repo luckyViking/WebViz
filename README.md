@@ -7,5 +7,5 @@ Goal:
 
 
 
-Main Page on hosted on Github-Pages may be accessed via:
+Main Page hosted on Github-Pages may be accessed via:
 https://luckyviking.github.io/WebViz/views/index.html
