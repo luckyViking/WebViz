@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Different Data Sets</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="../js/different_datasets.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+
+</head>
+<body>
+<div class="col-lg-12" style="height:30px; text-align: left;">
+    <a href="index.html" class="previous">&laquo; Previous</a>
+</div>
+
+
+
+
+<div class="jumbotron text-center">
+    <h1>Different Data Sets</h1>
+    <p>Let's plot some data!</p>
+</div>
+
+<div class="container">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-3">
+                <select class="form-control" id="dataset">
+                    <option value="random">Completely random data</option>
+                    <option value="random_grouped">Two groups of random data</option>
+                    <option value="iris">Iris Data Set</option>
+                    <option value="haberman">Haberman's Survival Data Set</option>
+                    <option value="abalone">Ablone Sex Predictor</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input class="btn btn-default" type="submit" id="selector" value="Load Data">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-12">
+                <p><strong>Explenation:</strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque mi nisl, efficitur ac massa ac, ultricies vulputate tortor. Donec commodo suscipit dui ut egestas. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse et mauris posuere, accumsan enim vel, mollis risus. Quisque at purus nec elit scelerisque rutrum. Duis pulvinar erat sed urna vulputate, sed posuere lectus congue. Nulla at est quis felis accumsan scelerisque. Suspendisse at luctus ante. Fusce rutrum sem urna, vel elementum neque mattis in. Curabitur tempus, augue sed volutpat finibus, libero sapien faucibus arcu, et vestibulum tortor odio nec tortor. Duis ut purus vel nunc vestibulum sollicitudin et hendrerit purus. Maecenas at ultrices augue. Nullam et rhoncus nisl. Aenean placerat id metus in auctor. Praesent sodales iaculis purus, eu sollicitudin leo pellentesque id. Cras dictum neque orci, nec blandit leo molestie sed. </p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12 col-lg-12 text-center" >
+                <div class="scatter" id="plot"></div>
+                <svg></svg>
+            </div>
+        </div>
+    </form>
+</div>
+
+<hr>
+<footer>
+    <span>Frankfurt University of Applied Sciences</span>
+    <br>
+    <span>WebTools für die Lehre: SVM</span>
+    <br>
+    <br>
+    <span>Contributors:</span>
+    <br>
+    <span>Yasemin Er; </span>
+    <span>Hendrik Pfaff; </span>
+    <span>Lukas Atkinson; </span>
+    <span>Luca Jordan</span>
+
+</footer>
+
+
+</body>
+</html>
