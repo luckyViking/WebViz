@@ -1,0 +1,13 @@
+{
+  "name": "webviz",
+  "version": "0.0.1",
+  "description": "Machine Learning Visualizations",
+  "type": "module",
+  "scripts": {
+    "test": "mocha js/test_*.js"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "mocha": "^7.1.2"
+  }
+}
