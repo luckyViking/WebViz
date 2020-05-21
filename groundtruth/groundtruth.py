@@ -4,23 +4,23 @@ from sklearn import svm
 
 # ToDo: export dummy data to file.
 X = np.array([[4, 8],
-               [4, 10],
-               [7, 10],
-               [8, 7],
-               [9, 6],
-               [9, 7],
-               [10, 10],
-               [1, 3],
-               [2, 5],
-               [2, 7],
-               [4, 4],
-               [4, 6],
-               [7, 5],
-               [8, 3]])
+              [4, 10],
+              [7, 10],
+              [8, 7],
+              [9, 6],
+              [9, 7],
+              [10, 10],
+              [1, 3],
+              [2, 5],
+              [2, 7],
+              [4, 4],
+              [4, 6],
+              [7, 5],
+              [8, 3]])
 y = np.array([1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1])
 
 # Create support vector classificator.
-clf = svm.SVC(kernel='linear')
+clf = svm.SVC(kernel='linear', C=10, tol=1E-3)
 clf.fit(X, y)
 
 # Plot data points.
@@ -40,10 +40,10 @@ Z = clf.decision_function(xy).reshape(XX.shape)
 # plot decision boundary and margins
 ax.contour(XX, YY, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--', '-', '--'])
 # plot support vectors
-ax.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, linewidth=1, facecolors='none', edgecolors='k')
+ax.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, linewidth=1, facecolors='none',
+           edgecolors='k')
 plt.title("Linear seperated Data points with Hyperplanes")
 plt.xlabel("x1")
 plt.ylabel("x2")
-plt.savefig("svm.png")
+# plt.savefig("svm.png")
 plt.show()
-
