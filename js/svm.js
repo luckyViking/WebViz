@@ -1,5 +1,5 @@
 /// dot product
-const inner = (as, bs) => {
+export const inner = (as, bs) => {
     if (as.length != bs.length)
         throw TypeError(`arrays must have same length (${as.length} != ${bs.length})`);
     let s = 0;
@@ -7,7 +7,23 @@ const inner = (as, bs) => {
         s += as[i] * bs[i];
     }
     return s;
+};
+
+export const polynomial = (a, b, c = 0, d = 2) => {
+    return (inner(a, b) + c) ** d;
+};
+
+const metric = (a, b, d = 2) => {
+    let s = 0;
+    for (let i = 0; i < a.length; i++) {
+        s += (a[i] - b[i]) ** d;
+    }
+    return s ** (1/d);
 }
+
+export const rbf = (a, b, gamma = 1) => {
+    return Math.exp(- gamma * metric(a, b));
+};
 
 /// generate a random integer in range `[0, max)`
 const getRandomInt = (max) => {
