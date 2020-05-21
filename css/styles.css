@@ -78,3 +78,16 @@ div.tooltip {
 	border-radius: 8px;
 	pointer-events: none;
 }
+
+
+.myLine{
+	stroke: black;
+	stroke-width: 2;
+	opacity: 0.75;
+	/*stroke-dasharray: 5,5;*/
+}
+
+
+#lineText{
+	background-color: red;
+}
