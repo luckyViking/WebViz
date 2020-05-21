@@ -33,7 +33,6 @@ export default class Svm {
         this.C = C;
         this.tol = tol;
 
-        this.errors = new Array(this.m).fill(0);
         this.eps = 1e-3;
 
         this.b = 0;
@@ -44,7 +43,7 @@ export default class Svm {
     // Compute the SVM output (class prediction) for the i-th element
     output(i) {
         if (this.use_linear_optim) {
-            return inner(this.w, this.X[i]) + this.b;
+            return inner(this.w, this.X[i]) - this.b;
         } else {
             let sum = 0;
             for (let j = 0; j < this.m; j++) {
@@ -55,17 +54,10 @@ export default class Svm {
     }
 
     get_error(i) {
-        if (0 < this.alphas[i] && this.alphas[i] < this.C) {
-            // return cached error
-            return this.errors[i];  // TODO: does this really always hold an up to date value?
-        } else {
-            // error is difference between prediction and actual label
-            return this.output(i) - this.y[i];
-        }
+        return this.output(i) - this.y[i];
     }
 
     take_step(i1, i2) {
-        // console.log(`take_step(${i1}, ${i2})`);
         if (i1 === i2)
             return false;
 
@@ -97,7 +89,6 @@ export default class Svm {
         }
 
         if (L === H) {
-            // console.log(`return false because L == H (${L} == ${H}, C = ${this.C})`);
             return false;
         }
 
@@ -109,7 +100,6 @@ export default class Svm {
 
         // don't update the multipliers unless there's a large enough change
         if (Math.abs(a2_new - a2) < this.eps * (a2_new + a2 + this.eps)) {
-            // console.log(`return false because update too small (a2 = ${a2}, a2_new = ${a2_new})`);
             return false;
         }
 
@@ -120,7 +110,6 @@ export default class Svm {
 
         this.update_alphas_b_weights(i1, i2, { a1_new, a2_new, b_new });
 
-        // console.log(`return true`);
         return true;
     }
 
@@ -143,19 +132,6 @@ export default class Svm {
             }
         }
 
-        // update the error cache using the new Lagrange multipliers
-        for (let i = 0; i < this.m; i++) {
-            if (0 < this.alphas[i] && this.alphas[i] < this.C) {
-                this.errors[i] +=
-                    delta1 * this.kernel(X1, this.X[i])
-                    + delta2 * this.kernel(X2, this.X[i])
-                    - delta_b;
-            }
-        }
-
-        this.errors[i1] = 0;
-        this.errors[i2] = 0;
-
         this.alphas[i1] = a1_new;
         this.alphas[i2] = a2_new;
     }
@@ -174,7 +150,6 @@ export default class Svm {
             // Clip a2 to range [L, H]
             // equation 17
             const clip = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
-            // console.log(`computing new a2 (eta = ${eta}, a2 = ${a2}, a2_new = ${a2_new}, clip(a2_new) = ${clip(a2_new,L,H)} E1 = ${E1}, E2 = ${E2})`);
             return clip(a2_new, L, H);
         }
         else {
@@ -214,7 +189,6 @@ export default class Svm {
     }
 
     examine_example(i2) {
-        console.log(`examining example #${i2}`);
         let E2 = this.get_error(i2);
         let y2 = this.y[i2];
         let a2 = this.alphas[i2];
@@ -224,13 +198,11 @@ export default class Svm {
         // if the KKT conditions are met, look at another sample
         if (!((r2 < -this.tol && a2 < this.C)
             || (r2 > this.tol && a2 > 0))) {
-            console.log(`terminating because KKT is already met (r2 = ${r2}, a2 = ${a2})`);
             return false;
         }
 
         let non_bound_indices = this.non_bound_indices();
         let i1 = this.second_heuristic_to_find_matching_i1(non_bound_indices, { E2 });
-        console.log(`per second heuristic, matching i2 might be ${i1} (non bound indices are ${non_bound_indices})`);
 
         if (i1 !== null && this.take_step(i1, i2))
             return true;
@@ -275,7 +247,7 @@ export default class Svm {
         let i1 = null;
         let max = 0;
         for (let j of non_bound_indices) {
-            let E1 = this.errors[j] - this.y[j];
+            let E1 = this.get_error(j) - this.y[j];
             let step = Math.abs(E1 - E2);  // approximation
             if (step > max) {
                 max = step;
@@ -309,15 +281,5 @@ export default class Svm {
                 examine_all = (num_changed == 0);
             }
         }
-    }
-
-    compute_weights() {
-        let sum = new Array(this.n).fill(0);
-        for (let i = 0; i < this.m; i++) {
-            for (let j = 0; j < this.n; j++) {
-                sum[j] += this.alphas[i] * this.y[i] * this.X[i][j];
-            }
-        }
-        return sum;
     }
 }

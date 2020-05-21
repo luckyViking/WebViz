@@ -13,7 +13,7 @@ describe("SVM", () => {
         ];
         let svm = new Svm({ X: data, y: labels, C: undefined, tol: 1E-3, kernel: undefined, use_linear_optim: true });
         svm.w = [0.4, 1.0];
-        svm.b = -9;
+        svm.b = 9;
 
         let outputs = [Math.fround(svm.output(0)), Math.fround(svm.output(1))];
         let expected = [
@@ -51,7 +51,6 @@ describe("SVM", () => {
 
         let svm = new Svm({ X: data, y: labels, C: 10, tol: 1E-3, kernel: null, use_linear_optim: true });
         svm.main_routine();
-        svm.w = svm.compute_weights();
 
         let output = []
         for (let i = 0; i < data.length; i++) {
