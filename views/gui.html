@@ -23,6 +23,7 @@
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
+    <script src="../js/gui.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 <body>
@@ -57,29 +58,23 @@
                 <h3>Settings</h3>
                 <div class="form-group">
                     <label for="datasets" class="control-label col-sm-2">Dataset</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <select id="datasets" class="form-control input-sm">
                             <option>iris</option>
                         </select>
                     </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="form-control input-sm btn btn-success col-sm-2">Load Data</button>
-                    </div>
                 </div>
                 <div class="form-group">
                     <label for="kernel" class="control-label col-sm-2">Kernel</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <select id="kernel" class="form-control input-sm ">
                             <option>Linear</option>
                         </select>
                     </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="form-control btn btn-success">Load Kernel</button>
-                    </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <button type="button" class="form-control btn btn-warning">Reset</button>
+                        <button type="button" class="form-control btn btn-success">Reload</button>
                     </div>
                     <div class="col-sm-4">
                         <button type="button" class="form-control btn btn-info ">Step backwards &larr;</button>
@@ -89,6 +84,9 @@
                     </div>
                 </div>
             </form>
+            <div class="row">
+                <h3>Values</h3>
+            </div>
         </div>
 
     </div>
@@ -175,10 +173,5 @@
     <span>Luca Jordan</span>
 
 </footer>
-
-
-<script src="../js/iris_shapes.js"></script>
-
-
 </body>
 </html>
