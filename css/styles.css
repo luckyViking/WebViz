@@ -87,6 +87,13 @@ div.tooltip {
 	/*stroke-dasharray: 5,5;*/
 }
 
+.topLine, .bottomLine {
+	stroke: black;
+	stroke-width: 2;
+	opacity: 0.75;
+	stroke-dasharray: 5,5;
+}
+
 
 #lineText{
 	background-color: red;

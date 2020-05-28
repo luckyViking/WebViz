@@ -117,6 +117,24 @@ function IrisShapes(){
             .attr("y2", 0)
             .attr("transform", "translate(0,-100) rotate(0)");
 
+        var topLine = svg.append("line")
+            .attr("class", "topLine")
+            .attr("id", "topLine")
+            .attr("x1", 0)
+            .attr("y1", height-50)
+            .attr("x2", width-50)
+            .attr("y2", 0)
+            .attr("transform", "translate(0,-100) rotate(0)");
+
+        var bottomLine = svg.append("line")
+            .attr("class", "bottomLine")
+            .attr("id", "bottomLine")
+            .attr("x1", 0)
+            .attr("y1", height+50)
+            .attr("x2", width+50)
+            .attr("y2", 0)
+            .attr("transform", "translate(0,-100) rotate(0)");
+
         var lineText = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("background-color", "lightgrey")
@@ -132,7 +150,13 @@ function IrisShapes(){
             .on("mouseover", handleLineMouseOver)
             .on("mouseout", handleLineMouseOut)
 
+        svg.selectAll('#topLine')
+            .on("mouseover", handleLineMouseOver)
+            .on("mouseout", handleLineMouseOut)
 
+        svg.selectAll('#bottomLine')
+            .on("mouseover", handleLineMouseOver)
+            .on("mouseout", handleLineMouseOut)
 
         svg.selectAll('circle')
             .on('mouseover', handleMouseOver)
@@ -160,7 +184,7 @@ function IrisShapes(){
                 .style("stroke", "rgba(229,105,56,0.93)")
                 .style("stroke-width", 5);
 
-            var line = document.getElementById('myLine');
+            var line = this;
             var attributes = line.attributes;
             var x1 = attributes.x1.value;
             var x2 = attributes.x2.value;
@@ -184,10 +208,9 @@ function IrisShapes(){
         }
 
         function handleLineMouseOut(d){
-            var line = document.getElementById('myLine');
+            var line = this;
             line.style.stroke="black";
             line.style.strokeWidth="2";
-            line.style.strokeDasharray="0,0";
 
             div.transition()
                 .duration(500)
@@ -240,12 +263,25 @@ function IrisShapes(){
 
 }
 
-/*document.onmousemove = function(e){
-    // shows mouse location on screen
-    var x = e.pageX;
-    var y = e.pageY;
-    e.target.title = "X: "+x+"\nY: "+y;
-};*/
-
 IrisShapes();
 
+/*
+$(document).ready(function() {
+
+
+
+    $('#reload').click(function(){
+        console.log("Reload graph");
+    });
+
+    $('#backwards').click(function(){
+        console.log("Step backwards");
+    });
+
+    $('#forwards').click(function(){
+        console.log("Step forwards")
+    });
+
+
+});
+*/

@@ -73,14 +73,20 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="epsilon" class="control-label col-sm-2">Epsilon</label>
+                    <div class="col-sm-10">
+                        <input type="number" name="epsilon" id="epsilon" value="1e-3" class="form-control input-sm"/>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-sm-4">
-                        <button type="button" class="form-control btn btn-success">Reload</button>
+                        <button type="button" id="reload" class="form-control btn btn-success">Reload</button>
                     </div>
                     <div class="col-sm-4">
-                        <button type="button" class="form-control btn btn-info ">Step backwards &larr;</button>
+                        <button type="button" id="backwards" class="form-control btn btn-info">Step backwards &larr;</button>
                     </div>
                     <div class=" col-sm-4">
-                        <button type="button" class="form-control btn btn-primary">Step forwards &rarr;</button>
+                        <button type="button" id="forwards" class="form-control btn btn-primary">Step forwards &rarr;</button>
                     </div>
                 </div>
             </form>
