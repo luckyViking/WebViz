@@ -1,4 +1,4 @@
-import Svm, {polynomial, rbf} from "./svm.js";
+import Svm, {polynomial, rbf, recordsDataToSvmData} from "./svm.js";
 import * as assert from "assert";
 
 describe("SVM", () => {
@@ -134,4 +134,19 @@ describe("SVM", () => {
 
         assert.deepStrictEqual(output, labels);
     });
+});
+
+it("can convert data to SVM format", () => {
+    let data = [
+        {foo: 1, bar: 7, flux: 1},
+        {foo: 2, bar: 8, flux: 2},
+        {foo: 3, bar: 9, flux: 3},
+        {foo: 4, bar: 1, flux: 2},
+    ];
+
+    let result = recordsDataToSvmData(data, ['foo', 'bar'], 'flux', 2);
+    assert.deepStrictEqual(result, [
+        [[1, 7], [2, 8], [3, 9], [4, 1]],
+        [-1, +1, -1, +1],
+    ]);
 })

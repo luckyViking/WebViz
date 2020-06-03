@@ -171,8 +171,8 @@ export default class Svm {
         else {
             // sometimes, eta might not be positive
             // equation 19
-            let f1 = y1 * (E1 + b) - a1 * k11 - s * a2 * k12;
-            let f2 = y2 * (E2 + b) - s * a1 * K12 - a2 * k22;
+            let f1 = y1 * (E1 + this.b) - a1 * k11 - s * a2 * k12;
+            let f2 = y2 * (E2 + this.b) - s * a1 * k12 - a2 * k22;
             let L1 = a1 + s * (a2 - L);
             let H1 = a1 + s * (a2 - H);
             let psi_L = L1 * f1 + L * f2 + 0.5 * L1 * L1 * k11 + 0.5 * L * L * k22 + s * L * L1 * k12;
@@ -305,4 +305,19 @@ export default class Svm {
             return { examine_all, num_changed };
         }
     }
+}
+
+export function recordsDataToSvmData(records, Xcols, ycol, selected_label) {
+    let X = [];
+    let y = [];
+
+    for (let i = 0; i < records.length; i++) {
+        let record = [];
+        for (let j = 0; j < Xcols.length; j++)
+            record[j] = records[i][Xcols[j]];
+        X.push(record);
+        y.push(records[i][ycol] == selected_label ? +1 : -1);
+    }
+
+    return [X, y];
 }

@@ -1,11 +1,15 @@
-
-function IrisShapes(){
+function IrisShapes(svm){
     d3.selectAll("svg > *").remove();
     $('svg').remove()
 
     d3.csv("../data/iris.csv", function(data){
 
-
+        let [svm_X, svm_y] = svm.recordsDataToSvmData(data, ['sepal_length', 'sepal_width'], 'species', 'setosa');
+        let s = new svm.default({
+            X: svm_X, y: svm_y,
+            C: 10, tol: 1e-3, kernel: svm.inner, use_linear_optim: true,
+        });
+        s.main_routine();
 
         var margin = {top: 25, right: 25, bottom: 25, left: 25},
             width = 500 - margin.left - margin.right,
@@ -20,9 +24,12 @@ function IrisShapes(){
             sepal_width[i] = parseFloat(data[i]['sepal_width']);
         }
 
+        // XXX the bounds -2 have been set to debug drawLine()
         let x_min = Math.min.apply(Math, sepal_length) * 0.9;
+        x_min = -2;
         let x_max = Math.max.apply(Math, sepal_length)  * 1.1;
         let y_min = Math.min.apply(Math, sepal_width)  * 0.9;
+        y_min = -2;
         let y_max = Math.max.apply(Math, sepal_width)  * 1.1;
 
         // set x range
@@ -64,36 +71,7 @@ function IrisShapes(){
         svg.append("g")
             .call(d3.axisLeft(y));
 
-
-        function make_x_gridlines() {
-            return d3.axisBottom(x)
-                .ticks(5)
-        }
-
-        function make_y_gridlines() {
-            return d3.axisLeft(y)
-                .ticks(5)
-        }
-
-
-        // add the X gridlines
-        svg.append("g")
-            .attr("class", "grid")
-            .attr("transform", "translate(0," + height + ")")
-            .call(make_x_gridlines()
-                .tickSize(-height)
-                .tickFormat("")
-            )
-
-
-        // add the Y gridlines
-        svg.append("g")
-            .attr("class", "grid")
-            .call(make_y_gridlines()
-                .tickSize(-width)
-                .tickFormat("")
-            )
-
+        addGridlines(svg, {height, width, x, y});
 
         color = d3.scaleOrdinal(data.map(d => d.category), d3.schemeCategory10)
 
@@ -108,43 +86,52 @@ function IrisShapes(){
             .attr("r", 4)
             .style("fill", colorBySpecies)
 
-        var line = svg.append("line")
-            .attr("class", "myLine")
-            .attr("id", "myLine")
-            .attr("x1", 0)
-            .attr("y1", height)
-            .attr("x2", width)
-            .attr("y2", 0)
-            .attr("transform", "translate(0,-100) rotate(0)");
+        {
+            // XXX the separating boundary is not drawn correctly
+            // 1. we shouldn't calculate the intercept, but the intersection with the plot's bounding box
+            // 2. even so, the boundary is totally off. A problem with the SVM?
+            let w = s.w;
+            let b = s.b;
 
-        var topLine = svg.append("line")
-            .attr("class", "topLine")
-            .attr("id", "topLine")
-            .attr("x1", 0)
-            .attr("y1", height-50)
-            .attr("x2", width-50)
-            .attr("y2", 0)
-            .attr("transform", "translate(0,-100) rotate(0)");
+            // w0*x + w1*y = b
+            // if x = 0:
+            //   y = b/w1
+            // if y = 0:
+            //   x = b/w0
 
-        var bottomLine = svg.append("line")
-            .attr("class", "bottomLine")
-            .attr("id", "bottomLine")
-            .attr("x1", 0)
-            .attr("y1", height+50)
-            .attr("x2", width+50)
-            .attr("y2", 0)
-            .attr("transform", "translate(0,-100) rotate(0)");
+            drawLine(svg, [0, b/w[1]], [b/w[0], 0], {scalex: x, scaley: y});
+        }
 
-        var lineText = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("background-color", "lightgrey")
-            .style("opacity", 0.5);
+        function colorBySpecies(data){
+            if(data.species == 'setosa'){
+                return "#6975b3";
+            }
+            if(data.species == 'versicolor'){
+                return "#7db369";
+            }
+            if(data.species == 'virginica'){
+                return "#b3697a";
+            }
+            else {
+                return "#69b3a2";
+            }
+        }
 
-        var div = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("background-color", "lightgrey")
-            .style("opacity", 0.5);
+        animateMouseover(svg);
+    });
+}
 
+function animateMouseover(svg) {
+
+    var lineText = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("background-color", "lightgrey")
+        .style("opacity", 0.5);
+
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("background-color", "lightgrey")
+        .style("opacity", 0.5);
 
         svg.selectAll('#myLine')
             .on("mouseover", handleLineMouseOver)
@@ -162,22 +149,6 @@ function IrisShapes(){
             .on('mouseover', handleMouseOver)
             .on("mouseout", handleMouseOut)
 
-        function colorBySpecies(data){
-            if(data.species == 'setosa'){
-                return "#6975b3";
-            }
-            if(data.species == 'versicolor'){
-                return "#7db369";
-            }
-            if(data.species == 'virginica'){
-                return "#b3697a";
-            }
-            else {
-                return "#69b3a2";
-            }
-        }
-
-
         function handleLineMouseOver(d){
 
             d3.select(this)
@@ -186,10 +157,10 @@ function IrisShapes(){
 
             var line = this;
             var attributes = line.attributes;
-            var x1 = attributes.x1.value;
-            var x2 = attributes.x2.value;
-            var y1 = attributes.y1.value;
-            var y2 = attributes.y2.value;
+            var x1 = attributes['data-x1'].value;
+            var x2 = attributes['data-x2'].value;
+            var y1 = attributes['data-y1'].value;
+            var y2 = attributes['data-y2'].value;
 
             var slope = Math.round( ((y2 - y1) / (x2 - x1)) *100  ) / 100;
 
@@ -250,20 +221,74 @@ function IrisShapes(){
                 .duration(500)
                 .style("opacity", 0);
         }
-
-
-
-
-
-    });
-
-
-
-
-
 }
 
-IrisShapes();
+function drawLine(svg, [x1, y1], [x2, y2], {scalex, scaley}) {
+    var line = svg.append("line")
+        .attr("class", "myLine")
+        .attr("id", "myLine")
+        .attr("x1", scalex(x1))
+        .attr("y1", scaley(y1))
+        .attr("x2", scalex(x2))
+        .attr("y2", scaley(y2))
+        .attr("data-x1", x1)
+        .attr("data-y1", y1)
+        .attr("data-x2", x2)
+        .attr("data-y2", y2)
+        .attr("transform", "translate(0,-100) rotate(0)");
+
+    var topLine = svg.append("line")
+        .attr("class", "topLine")
+        .attr("id", "topLine")
+        .attr("x1", scalex(x1))
+        .attr("y1", scaley(y1)-50)
+        .attr("x2", scalex(x2)-50)
+        .attr("y2", scaley(y2))
+        .attr("transform", "translate(0,-100) rotate(0)");
+
+    var bottomLine = svg.append("line")
+        .attr("class", "bottomLine")
+        .attr("id", "bottomLine")
+        .attr("x1", scalex(x1))
+        .attr("y1", scaley(y1)+50)
+        .attr("x2", scalex(x2)+50)
+        .attr("y2", scaley(y2))
+        .attr("transform", "translate(0,-100) rotate(0)");
+}
+
+function addGridlines(svg, {height, width, x, y}) {
+    function make_x_gridlines() {
+        return d3.axisBottom(x)
+            .ticks(5);
+    }
+
+    function make_y_gridlines() {
+        return d3.axisLeft(y)
+            .ticks(5);
+    }
+
+
+    // add the X gridlines
+    svg.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + height + ")")
+        .call(make_x_gridlines()
+              .tickSize(-height)
+              .tickFormat("")
+             );
+
+
+    // add the Y gridlines
+    svg.append("g")
+        .attr("class", "grid")
+        .call(make_y_gridlines()
+              .tickSize(-width)
+              .tickFormat("")
+             );
+}
+
+import('/js/svm.js').then(svm => IrisShapes(svm));
+// IrisShapes();
 
 /*
 $(document).ready(function() {
