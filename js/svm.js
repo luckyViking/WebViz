@@ -283,19 +283,26 @@ export default class Svm {
     }
 
     main_routine() {
-        let num_changed = 0;
-        let examine_all = true;
+        let state = {
+            num_changed: 0,
+            examine_all: true,
+        };
 
-        while (num_changed > 0 || examine_all) {
-            if (examine_all) {
-                num_changed = 0;
-                for (let i = 0; i < this.m; i++)
-                    num_changed += this.examine_example(i);
-                examine_all = false;
-            } else {
-                num_changed = this.first_heuristic();
-                examine_all = (num_changed == 0);
-            }
+        while (state.num_changed > 0 || state.examine_all) {
+            state = this.main_routine_step(state);
+        }
+    }
+
+    main_routine_step({ examine_all }) {
+        if (examine_all) {
+            let num_changed = 0;
+            for (let i = 0; i < this.m; i++)
+                num_changed += this.examine_example(i);
+            return { examine_all: false, num_changed };
+        } else {
+            let num_changed = this.first_heuristic();
+            let examine_all = (num_changed == 0);
+            return { examine_all, num_changed };
         }
     }
 }
