@@ -287,9 +287,6 @@ function addGridlines(svg, {height, width, x, y}) {
              );
 }
 
-import('/js/svm.js').then(svm => IrisShapes(svm));
-// IrisShapes();
-
 /*
 $(document).ready(function() {
 
