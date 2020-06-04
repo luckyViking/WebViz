@@ -48,8 +48,12 @@ ax.contour(XX, YY, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--'
 # Plot support vectors.
 ax.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, linewidth=1, facecolors='none', edgecolors='k')
 
-plt.title("Linear seperated Iris data set")
+titlestring = "Linear separated Iris data set\nWeights: [" + str(round(clf.coef_[0][0], 3)) + ", " + str(round(clf.coef_[0][1], 3)) + "]\nBias: " + str(round(clf.intercept_[0], 3)) + "\nSupport Vectors:"
+for j in range(len(clf.support_vectors_)):
+    titlestring += " (" + str(round(clf.support_vectors_[j][0], 3)) + "; " + str(round(clf.support_vectors_[j][1], 3)) + ")\n"
+
+plt.title(titlestring)
 plt.xlabel("Sepal length")
 plt.ylabel("Sepal width")
-#plt.savefig("svm.png")
+plt.savefig("svm_iris.png")
 plt.show()
