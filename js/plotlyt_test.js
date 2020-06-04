@@ -3,27 +3,10 @@ Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/iris-dat
         return rows.map(function(row)
         { return row[key]; });}
 
-/*    var data =[{
-        type: 'scatter3d',
-        x:unpack(rows, 'sepal length'),
-        y: unpack(rows, 'sepal width'),
-        z: unpack(rows, 'petal length'),
-        subject: unpack(rows, 'class'),
-        mode: 'markers',
-        transforms: [{
-            type: 'groupby',
-            groups: subject,
-            styles:[
-                {target: 'Iris-setosa', value: {marker:{color:'blue'}}},
-                {target: 'Iris-versicolor', value: {marker:{color:'red'}}},
-                {target: 'Iris-virginica', value: {marker:{color:'green'}}}
-            ]
-        }]
-    }]*/
-
     var x = unpack(rows, 'sepal length');
     var y = unpack(rows, 'sepal width');
     var z = unpack(rows, 'petal length');
+    var z2 = unpack(rows, 'petal width');
     var c = unpack(rows, 'class');
 
 
@@ -78,8 +61,8 @@ Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/iris-dat
         y: [y_min, y_max, y_min, y_max],
         z: [2, 2, 4, 4],
         delaunayaxis: x,
-        color: 'green',
-        opacity: 0.5,
+        color: 'red',
+        opacity: 0.2,
 
     };
 
