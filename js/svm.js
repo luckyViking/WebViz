@@ -57,13 +57,16 @@ export default class Svm {
     }
 
     // Compute the SVM output (class prediction) for the i-th element
+    // Input i can either be an index of a sample, or a coordinate array
+    // `[x1,x2,...]`
     output(i) {
+        const X = (typeof(i) == "number") ? this.X[i] : i;
         if (this.use_linear_optim) {
-            return inner(this.w, this.X[i]) - this.b;
+            return inner(this.w, X) - this.b;
         } else {
             let sum = 0;
             for (let j = 0; j < this.m; j++) {
-                sum += this.alphas[j] * this.y[j] * this.kernel(this.X[j], this.X[i]);
+                sum += this.alphas[j] * this.y[j] * this.kernel(this.X[j], X);
             }
             return sum - this.b;
         }
