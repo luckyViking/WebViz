@@ -1,19 +1,19 @@
-// Read and process data.
-Plotly.d3.csv('../data/iris.csv', function (data) {
-    processData(data)
-});
+function IrisShapesPlotly(svm){
+    // Read and process data.
+    Plotly.d3.csv('../data/iris.csv', function (data) {
+        processData(data, svm)
+    });
+}
 
-
-function processData(data) {
-    // Define axis from data.
-    var x = [], y = [];
-    for (var i = 0; i < data.length; i++) {
-        row = data[i]
-        x.push(row['sepal_length'])
-        y.push(row['sepal_width'])
-    }
-
-    //Do SVM stuff here!
+function processData(data, svm) {
+    //Do SVM stuff here! See: gui.js
+    let [svm_X, svm_y] = svm.recordsDataToSvmData(data, ['sepal_length', 'sepal_width'], 'species', 'setosa');
+    let s = new svm.default({
+        X: svm_X, y: svm_y,
+        C: 10, tol: 1e-3, kernel: svm.inner, use_linear_optim: true,
+    });
+    s.main_routine();
+    console.log(s);
 
     // Data of the contour.
     var z = [[10, 10.625, 12.5, 15.625, 20],
@@ -22,11 +22,24 @@ function processData(data) {
         [0.625, 1.25, 3.125, 6.25, 10.625],
         [0, 0.625, 2.5, 5.625, 10]];
 
-    createPlot(x, y, z);
+    // Define axis from data.
+    var x = [[],[]], y = [[],[]];
+    for (var i = 0; i < data.length; i++) {
+        row = data[i]
+        if(row['species'] == 'setosa'){
+            x[0].push(row['sepal_length']);
+            y[0].push(row['sepal_width']);
+        } else {
+            x[1].push(row['sepal_length']);
+            y[1].push(row['sepal_width']);
+        }
+    }
+
+    createPlot(x, y, z, ['Setosa', 'Others']);
 }
 
 // Draw the plotly.
-function createPlot(xData, yData, zData) {
+function createPlot(xData, yData, zData, labels) {
     // Define target div.
     var div = document.getElementById('iris-shapes');
     // Contour plot.
@@ -45,15 +58,24 @@ function createPlot(xData, yData, zData) {
         type: 'contour'
     };
 
-    // Scatter plot.
-    var scatter = {
-        x: xData,
-        y: yData,
+    // Scatter plots.
+    var scatter1 = {
+        x: xData[0],
+        y: yData[0],
+        name: labels[0],
         mode: 'markers',
         type: 'scatter'
     };
 
-    var data = [contour, scatter];
+    var scatter2 = {
+        x: xData[1],
+        y: yData[1],
+        name: labels[1],
+        mode: 'markers',
+        type: 'scatter'
+    }
+
+    var data = [contour, scatter1, scatter2];
 
     // Layout settings.
     var layout = {
