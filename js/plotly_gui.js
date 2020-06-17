@@ -5,6 +5,18 @@ function IrisShapesPlotly(svm){
     });
 }
 
+function linspace(min, max, N) {
+    domain = max - min;
+    lin = [];
+    d = domain /(N-1);
+    for(let i = 0;i < N; i++){
+        current = min + (i * d);
+        lin.push(current)
+    }
+
+    return lin;
+}
+
 function processData(data, svm) {
     //Do SVM stuff here! See: gui.js
     let [svm_X, svm_y] = svm.recordsDataToSvmData(data, ['sepal_length', 'sepal_width'], 'species', 'setosa');
