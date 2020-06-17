@@ -27,25 +27,36 @@ function processData(data, svm) {
     s.main_routine();
     console.log(s);
 
-    // Data of the contour.
-    var z = [[10, 10.625, 12.5, 15.625, 20],
-        [5.625, 6.25, 8.125, 11.25, 15.625],
-        [2.5, 3.125, 5., 8.125, 12.5],
-        [0.625, 1.25, 3.125, 6.25, 10.625],
-        [0, 0.625, 2.5, 5.625, 10]];
-
     // Define axis from data.
-    var x = [[],[]], y = [[],[]];
+    var x = [[],[]], y = [[],[]], z = [];
+
+    // Data for the scatter.
     for (var i = 0; i < data.length; i++) {
         row = data[i]
         if(row['species'] == 'setosa'){
-            x[0].push(row['sepal_length']);
-            y[0].push(row['sepal_width']);
+            x[0].push(parseFloat(row['sepal_length']));
+            y[0].push(parseFloat(row['sepal_width']));
         } else {
-            x[1].push(row['sepal_length']);
-            y[1].push(row['sepal_width']);
+            x[1].push(parseFloat(row['sepal_length']));
+            y[1].push(parseFloat(row['sepal_width']));
         }
     }
+
+
+    // Data of the contour.
+    var linX = linspace(4.12, 8.08,30);
+    var linY = linspace(1.88, 4.5200000000000005, 30);
+    var tmp = []
+    for(var n=0; n<linX.length; n++){
+        for(var p=0; p<linY.length; p++){
+            tmp[p] = (s.output([linX[n], linY[p]]));
+        }
+        //z.push(tmp);
+        z[n]=tmp;
+        tmp=[];
+    }
+
+    console.log(z)
 
     createPlot(x, y, z, ['Setosa', 'Others']);
 }
