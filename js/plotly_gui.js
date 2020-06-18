@@ -25,6 +25,7 @@ function processData(data, svm) {
         C: 10, tol: 1e-3, kernel: svm.inner, use_linear_optim: true,
     });
     s.main_routine();
+    console.log(s);
 
     // Define axis from data.
     var x = [[],[]], y = [[],[]], z = [];
@@ -54,9 +55,7 @@ function processData(data, svm) {
         tmp=[];
     }
 
-    console.log(z)
-
-    createPlot(x, y, z, ['Species: Setosa', 'Species: Others']);
+    createPlot(x, y, z, ['Setosa', 'Others']);
 }
 
 // Draw the plotly.
@@ -72,8 +71,17 @@ function createPlot(xData, yData, zData, labels) {
         contours: {
             coloring: 'lines'
         },
+        line: {
+            smoothing: 1.3,
+            width: 2
+        },
+        transpose:true,
+        ncontours: 2,
         xaxis: 'x1',
         yaxis: 'x2',
+        showlegend: false,
+        showscale: false,
+        hoverinfo: 'none',
         type: 'contour'
     };
 
@@ -81,6 +89,9 @@ function createPlot(xData, yData, zData, labels) {
     var scatter1 = {
         x: xData[0],
         y: yData[0],
+        marker: {
+            color: 'LightSkyBlue',
+        },
         name: labels[0],
         mode: 'markers',
         type: 'scatter'
@@ -98,9 +109,7 @@ function createPlot(xData, yData, zData, labels) {
 
     // Layout settings.
     var layout = {
-        title: 'Plotting with Plotly',
         showlegend: false,
-        showscale: false,
         xaxis: {anchor: 'x1'},
         yaxis: {anchor: 'x2'}
     };
