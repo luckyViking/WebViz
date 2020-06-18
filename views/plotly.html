@@ -11,6 +11,31 @@
     <script async>
         $(document).ready(() => {
             import("../js/svm.js").then(svm => IrisShapesPlotly(svm));
+
+            $('#forwards').click(function (e) {
+                e.preventDefault();
+                console.log("Forward");
+                var element = $('.explanation.active');
+                element.fadeOut(1000);
+                element.removeClass('active');
+                element.next().fadeIn(3000);
+                element.next().addClass('active');
+            });
+
+            $('#reload').click(function (e) {
+                e.preventDefault();
+                console.log("Reload");
+
+                var active = $('.explanation.active');
+                active.fadeOut(1000);
+                active.removeClass('active');
+
+                var first = $('.explanation').first();
+                first.fadeIn(3000);
+                first.addClass('active');
+
+            });
+
         })
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -30,7 +55,15 @@
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <style type="text/css">
+        .explanation {
+            display: none;
+        }
 
+        .active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <div class="col-lg-12" style="height:30px; text-align: left;">
@@ -84,27 +117,25 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <button type="button" id="reload" class="form-control btn btn-success">Reload</button>
                     </div>
-                    <div class="col-sm-4">
-                        <button type="button" id="backwards" class="form-control btn btn-info">Step backwards &larr;</button>
-                    </div>
-                    <div class=" col-sm-4">
+                    <div class=" col-sm-6">
                         <button type="button" id="forwards" class="form-control btn btn-primary">Step forwards &rarr;</button>
                     </div>
                 </div>
             </form>
-            <div class="row">
+            <!--<div class="row">
                 <h3>Values</h3>
-            </div>
+            </div>-->
         </div>
 
     </div>
     <div class="row" height="250px">
         <div class="col-md-12 col-lg-12">
-            <h2>Why SVM?</h2>
-            <p>The Support Vector Machine (SVM) is one of the most modern technique used for regression-and
+            <div class="explanation active">
+                <h2>Why SVM?</h2>
+                The Support Vector Machine (SVM) is one of the most modern technique used for regression-and
                 classification problems.
                 The SVM is a supervised learning model.
                 In this approach we are given a set of input vectors ($x_n$) paired with corresponding target values
@@ -115,17 +146,21 @@
                 In regression $t$ is a continuous variable. The prediction $y(x,w)$ is expressed as the following linear
                 model:
                 $$y(x,w) = \sum_{m=0}^{M} w_m \phi_m(x) = w^T\phi \label{ref1}$$
-                Here, $\phi_{m}(x)$ are basis functions and the parameters ${w_m}$ are the associated weights.</p>
-            <h2>How SVM works</h2>
-            <p>There are different types of the SVM: in the classification case, there is the original one the Maximal
+                Here, $\phi_{m}(x)$ are basis functions and the parameters ${w_m}$ are the associated weights.
+            </div>
+            <div class="explanation">
+                <h2>How SVM works</h2>
+                 There are different types of the SVM: in the classification case, there is the original one the Maximal
                 Margin Classifier, the kernelized version, the soft-margin version and the soft-margin kernelized
                 version which combines the first 3 versions and is used most frequently.
                 In the regression case there is the Support Vector Regression (SVR).
                 However, all SVMs are basically a specialization of (\ref{ref1}) and make predictions based on the
                 following function:
                 $$y(x,w)=\sum_{i=1}^{N}w_{i}K(x,x_i)+w_0 \label{ref2}$$
-                where K stands for kernel functions.</p>
-            <p>The SVM searches for the optimal hyperplane that best separates the data by maximizing the margin.
+                where K stands for kernel functions.
+            </div>
+            <div class="explanation">
+                The SVM searches for the optimal hyperplane that best separates the data by maximizing the margin.
                 Maximizing the margin is an optimization problem that is equivalent to minimizing the norm of the weight
                 vector:
                 $$minimize_{w,b} \space \frac{1} {2} ||w||^2 $$
@@ -139,8 +174,10 @@
                 The problem from (\ref{ref4}) can then be rewritten in dual form and becomes a Wolfe Dual Problem.
                 In this way the parameters $w$ and $b$ can be found:
                 $$w=\sum_{i=1}^{m}\alpha_{i}y_{i}x_{i} \label{ref5}$$
-                $$b=y_{i}-w*x_{i} \label{ref6}$$</p>
-            <p>Because (\ref{ref4}) contains inequality constraints, the solution must fulfill certain conditions, the
+                $$b=y_{i}-w*x_{i} \label{ref6}$$
+            </div>
+            <div class="explanation">
+                Because (\ref{ref4}) contains inequality constraints, the solution must fulfill certain conditions, the
                 Karush-Kuhn-Tucker (KKT) conditions.
                 These conditions are: stationarity-, primal feasibility-, dual feasibility- and complementary slackness
                 condition.
@@ -161,9 +198,10 @@
                 $$y_{i}(w*x_{i}+b) \geq 1-\zeta_{i}$$
                 $$\zeta_{i} \geq 0 \space for \space any \space i=1,...,m $$
                 The hyperparameter $C$ can then be used to control how the SVM should deal with outliers.
+            </div>
+            <div class="explanation">
+                <h2>References</h2>...
             </p>
-            <h2>References</h2>
-            <p>...</p>
         </div>
 
     </div>
