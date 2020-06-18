@@ -25,7 +25,6 @@ function processData(data, svm) {
         C: 10, tol: 1e-3, kernel: svm.inner, use_linear_optim: true,
     });
     s.main_routine();
-    console.log(s);
 
     // Define axis from data.
     var x = [[],[]], y = [[],[]], z = [];
@@ -51,14 +50,13 @@ function processData(data, svm) {
         for(var p=0; p<linY.length; p++){
             tmp[p] = (s.output([linX[n], linY[p]]));
         }
-        //z.push(tmp);
         z[n]=tmp;
         tmp=[];
     }
 
     console.log(z)
 
-    createPlot(x, y, z, ['Setosa', 'Others']);
+    createPlot(x, y, z, ['Species: Setosa', 'Species: Others']);
 }
 
 // Draw the plotly.
@@ -69,10 +67,8 @@ function createPlot(xData, yData, zData, labels) {
     var contour = {
         // Lines.
         z: zData,
-        //x: xData,
-        //y: yData,
-        x: [4, 5, 6, 7, 8, 9],
-        y: [1, 2, 3, 4, 5, 6],
+        x: linspace(4.12, 8.08,30),
+        y: linspace(1.88, 4.5200000000000005, 30),
         contours: {
             coloring: 'lines'
         },
