@@ -106,13 +106,13 @@ function processData(data, svm) {
 
         console.log(z)
 
-        createPlot(x1, x2, z, c, cNumeric);
+        createPlot(x1, x2, z, c, cNumeric, s);
 
     });
 }
 
 // Draw the plotly.
-function createPlot(xData, yData, zData, labels, labelsNumeric) {
+function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
 
 
     // Define target div.
@@ -129,6 +129,9 @@ function createPlot(xData, yData, zData, labels, labelsNumeric) {
 
     var contour = {
         // Lines.
+        contours:{
+            coloring: 'lines'
+        },
         z: zData,
         //x: xData,
         //y: yData,
@@ -165,26 +168,45 @@ function createPlot(xData, yData, zData, labels, labelsNumeric) {
         colorscale:'Jet'
     }
 
-    var scatter = {
-        x: xData,
-        y:yData,
+    var scatterPoints = {
+        x: xData.filter((x, i) => svm.alphas[i] <= 0),
+        y:yData.filter((x, i) => svm.alphas[i] <= 0),
         mode: 'markers',
         hoverinfo: 'none',
         type:'scatter',
         transforms: [{
             type: 'groupby',
-            groups: labels,
+            groups: labels.filter((x, i) => svm.alphas[i] <= 0),
             styles:[
                 //{target: -1, value: {marker: {color:'rgb(255,255,255)'}}},
                 //{target: 1, value: {marker: {color:'rgba(2,253,12,0.7)'}}}
                 {target: 'Iris-setosa', value: {marker:{color:'rgb(89,245,7)'}}},
                 {target: 'Iris-versicolor', value: {marker:{color:'rgb(252,252,252)'}}},
-                {target: 'Iris-virginica', value: {marker:{color:'rgb(255,255,255)'}}}
+                {target: 'Iris-virginica', value: {marker:{color:'rgb(245,7,7)'}}}
             ]
         }],
     }
 
-    var data = [scatter, contour];
+    var scatterSupportVectors = {
+        x: xData.filter((x, i) => svm.alphas[i] > 0),
+        y:yData.filter((x, i) => svm.alphas[i] > 0),
+        mode: 'markers',
+        hoverinfo: 'none',
+        type:'scatter',
+        transforms: [{
+            type: 'groupby',
+            groups: labels.filter((x, i) => svm.alphas[i] > 0),
+            styles:[
+                //{target: -1, value: {marker: {color:'rgb(255,255,255)'}}},
+                //{target: 1, value: {marker: {color:'rgba(2,253,12,0.7)'}}}
+                {target: 'Iris-setosa', value: {marker:{color:'rgba(127,16,198,0.95)'}}},
+                {target: 'Iris-versicolor', value: {marker:{color:'rgba(127,16,198,0.95)'}}},
+                {target: 'Iris-virginica', value: {marker:{color:'rgba(127,16,198,0.95)'}}}
+            ]
+        }],
+    }
+
+    var data = [scatterPoints, scatterSupportVectors, contour];
 
     // Layout settings.
     var layout = {
