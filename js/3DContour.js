@@ -16,7 +16,7 @@ Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/iris-dat
     var y_min = Math.min.apply(null, y.filter(function(n) { return !isNaN(n); }));
     var y_max = Math.max.apply(null, y.filter(function(n) { return !isNaN(n); }));
 
-    var trace1 = {
+    var scatter = {
         x: x,
         y: y,
         z: z,
@@ -42,7 +42,7 @@ Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/iris-dat
     };
 
     //
-    var trace2 = {
+    var scatter_lines = {
         type: 'scatter3d',
         mode: 'lines',
         x: x,
@@ -57,14 +57,15 @@ Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/iris-dat
     };
 
     // plane
-    var trace3 = {
+    var plane = {
         type: 'mesh3d',
+
         x: [x_min, x_min, x_max, x_max],
         y: [y_min, y_max, y_min, y_max],
-        z: [2, 2, 4, 4],
+        z: [4.5, 4.5, 5, 5],
         delaunayaxis: x,
-        color: 'red',
-        opacity: 0.2,
+        color: 'rgb(33,63,165)',
+        opacity: 0.5,
 
     };
 
@@ -76,16 +77,17 @@ Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/iris-dat
 
     var contour = {
         type: 'surface',
+        // to display the contour according to the x and y input data you have to define the input data for x and y,
+        // otherwise the axes will be scaled according to z_data only
+        // therefore just use linspace() to scale the axes
         x: linspace(x_min, x_max, 15),
         y: linspace(y_min, y_max, 15),
         z: z_data,
         opacity: 0.5,
         color: "rgb(255,255,255)",
-
-
     }
 
-    var data = [trace1, contour];
+    var data = [scatter, scatter_lines, plane, contour];
     var layout = {
         xaxis:{
             fixedrange: true,
