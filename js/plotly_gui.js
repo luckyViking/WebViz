@@ -17,11 +17,22 @@ function linspace(min, max, N) {
     return lin;
 }
 
+function StringArray2FloatArray(StringArray){
+    var FloatArray = [];
+    var ArrayLength = StringArray.length;
+    for(var i = 0; i < ArrayLength; i++){
+        var float = parseFloat(StringArray[i])
+        FloatArray.push(parseFloat(StringArray[i]));
+    }
+    return FloatArray;
+}
+
 function processData(data, svm) {
     //Do SVM stuff here! See: gui.js
     let [svm_X, svm_y] = svm.recordsDataToSvmData(data, ['sepal_length', 'sepal_width'], 'species', 'setosa');
     let s = new svm.default({
         X: svm_X, y: svm_y,
+        //
         C: 10, tol: 1e-3, kernel: svm.inner, use_linear_optim: true,
     });
     s.main_routine();
@@ -33,13 +44,19 @@ function processData(data, svm) {
     Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/iris-data.csv', function(err, rows) {
         function unpack(rows, key) {
             return rows.map(function (row) {
+                // return float
                 return row[key];
             });
         }
-        var x = unpack(rows, 'sepal length');
-        var y = unpack(rows, 'sepal width');
-        var zz = unpack(rows, 'petal length');
-        var z2 = unpack(rows, 'petal width');
+
+
+
+        //TODO  parse to floats
+        //var x1 = unpack(rows, 'sepal length');
+        var x1 = StringArray2FloatArray(unpack(rows, 'sepal length'));
+        var x2 = StringArray2FloatArray(unpack(rows, 'sepal width'));
+        var x3 = StringArray2FloatArray(unpack(rows, 'petal length'));
+        var x4 = StringArray2FloatArray(unpack(rows, 'petal width'));
         var c = unpack(rows, 'class');
         var cNumeric = [];
 
@@ -52,13 +69,22 @@ function processData(data, svm) {
                 cNumeric.push(1);
             }
             if(c[n] == 'Iris-virginica'){
-                cNumeric.push(1);
+                cNumeric.push(2);
             }
         }
 
+        var x_min = Math.min.apply(null, x1.filter(function(n) { return !isNaN(n); }));
+        var x_max = Math.max.apply(null, x1.filter(function(n) { return !isNaN(n); }));
+
+        var y_min = Math.min.apply(null, x2.filter(function(n) { return !isNaN(n); }));
+        var y_max = Math.max.apply(null, x2.filter(function(n) { return !isNaN(n); }));
+
+
+
         // Data of the contour.
-        var linX = linspace(4.12, 8.08,30);
-        var linY = linspace(1.88, 4.5200000000000005, 30);
+        var linX = linspace(x_min, x_max,100);
+        var linY = linspace(y_min, y_max, 100);
+
         var tmp = []
         for(var n=0; n<linX.length; n++){
             for(var p=0; p<linY.length; p++){
@@ -69,9 +95,18 @@ function processData(data, svm) {
             tmp=[];
         }
 
+        const sign = (x) => {
+            if (x < 0){return -1}
+            if (x > 0){return 1}
+            return 0;
+        }
+
+        // TODO replace sign with sgimoid or tanh for example
+        z = z.map(z => z.map(sign))
+
         console.log(z)
 
-        createPlot(x, zz, z, c, cNumeric);
+        createPlot(x1, x2, z, c, cNumeric);
 
     });
 }
@@ -89,8 +124,8 @@ function createPlot(xData, yData, zData, labels, labelsNumeric) {
     let y_min = 0.9 * Math.min.apply(Math, yData);
     let y_max = 1.1 * Math.max.apply(Math, yData);
 
-    linX = linspace(x_min, x_max, 30);
-    linY = linspace(y_min, y_max, 30);
+    linX = linspace(x_min, x_max, 100);
+    linY = linspace(y_min, y_max, 100);
 
     var contour = {
         // Lines.
@@ -105,7 +140,10 @@ function createPlot(xData, yData, zData, labels, labelsNumeric) {
         hoverinfo: 'none',
         xaxis: 'x1',
         yaxis: 'x2',
-        type: 'contour'
+        type: 'contour',
+        line:{
+            smoothing: 1.3
+        }
     };
 
     var contour2 = {
@@ -137,7 +175,9 @@ function createPlot(xData, yData, zData, labels, labelsNumeric) {
             type: 'groupby',
             groups: labels,
             styles:[
-                {target: 'Iris-setosa', value: {marker:{color:'rgb(232,10,10)'}}},
+                //{target: -1, value: {marker: {color:'rgb(255,255,255)'}}},
+                //{target: 1, value: {marker: {color:'rgba(2,253,12,0.7)'}}}
+                {target: 'Iris-setosa', value: {marker:{color:'rgb(89,245,7)'}}},
                 {target: 'Iris-versicolor', value: {marker:{color:'rgb(252,252,252)'}}},
                 {target: 'Iris-virginica', value: {marker:{color:'rgb(255,255,255)'}}}
             ]
