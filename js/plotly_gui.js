@@ -101,6 +101,7 @@ function processData(data, svm) {
             return 0;
         }
 
+
         // TODO replace sign with sgimoid or tanh for example
         z = z.map(z => z.map(sign))
 
@@ -109,6 +110,13 @@ function processData(data, svm) {
         createPlot(x1, x2, z, c, cNumeric, s);
 
     });
+
+    //    z[n]=tmp;
+    //    tmp=[];
+    //}
+
+    createPlot(x, y, z, ['Setosa', 'Others']);
+
 }
 
 // Draw the plotly.
@@ -171,6 +179,35 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
     var scatterPoints = {
         x: xData.filter((x, i) => svm.alphas[i] <= 0),
         y:yData.filter((x, i) => svm.alphas[i] <= 0),
+
+/*        x: linspace(4.12, 8.08,30),
+        y: linspace(1.88, 4.5200000000000005, 30),
+        contours: {
+            coloring: 'lines'
+        },
+        line: {
+            smoothing: 1.3,
+            width: 2
+        },
+        transpose:true,
+        ncontours: 2,
+        xaxis: 'x1',
+        yaxis: 'x2',
+        showlegend: false,
+        showscale: false,
+        hoverinfo: 'none',
+        type: 'contour'
+    };
+
+    // Scatter plots.
+    var scatter1 = {
+        x: xData[0],
+        y: yData[0],
+        marker: {
+            color: 'LightSkyBlue',
+        },
+        name: labels[0],*/
+
         mode: 'markers',
         hoverinfo: 'none',
         type:'scatter',
@@ -212,7 +249,6 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
     var layout = {
         title: 'SVM: Iris with Dot-Kernel',
         showlegend: false,
-        showscale: false,
         xaxis: {anchor: 'x1'},
         yaxis: {anchor: 'x2'}
     };
