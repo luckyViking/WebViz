@@ -1,0 +1,74 @@
+\documentclass{scrartcl}
+\usepackage{hyperref}
+
+\title{Explainable SVM}
+\subtitle{Online Visualizations for Teaching}
+
+% FIXME emails look weird?
+\author{
+  Hendrik Pfaff, Luca Jordan, Lukas Atkinson, Yasemin Er
+  \\
+  {\normalsize\ttfamily \{hendrik.pfaff,gian.jordan,atkinson,yasemin-\}@stud.fra-uas.de}
+}
+
+\date{Summer Term 2020}
+
+\publishers{Frankfurt University of Applied Sciences}
+
+\subject{Project Documentation}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+In order to teach algorithms, interactive visualizations can be a powerful tool.
+We therefore developed an interactive, web-based tool
+to explain how Support Vector Machines (SVM) work.
+
+\section{Support Vector Machines}
+
+% TODO: provide some mathematical background
+
+\section{Installation}
+
+The visualizations are implemented in client-side JavaScript,
+so implementation is simple:
+the project files just have to be served via an HTTP server
+and opened in any modern browser.
+There are no server-side programs that have to be installed.
+
+For local use, Python's built-in web server is a convenient choice:
+
+\begin{enumerate}
+\item start the server with \verb|python3 -m http.server -b localhost 4321|
+\item open the start page in the browser: \url{http://localhost:4321/views/}
+\end{enumerate}
+
+While the user-accessible pages are under \verb|/views/|,
+necessary resources are served under
+\verb|/data/|, \verb|/css/|, and \verb|/js/|.
+
+A live version of the project can also be accessed at
+\url{https://luckyviking.github.io/WebViz/views/}.
+
+\section{Implemented Views}
+
+The primary tool is provided under \verb|/views/plotly.html|.
+Other tools were used for debugging or tried out alternative approaches:
+
+\begin{itemize}
+\item \verb|/views/scatterplot.html|
+\item \verb|/views/different_datasets.html|
+\item \verb|/views/iris_shapes.html|
+\item \verb|/views/gui.html|
+\item \verb|/views/plotly.html|
+\end{itemize}
+
+\section{User Manual}
+
+\section{Challenges}
+
+\section{Conclusion}
+
+\end{document}
