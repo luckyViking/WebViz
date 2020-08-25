@@ -24,7 +24,6 @@ footer{
 
 
 .mybutton{
-	font-weight: 50px;
 	height: 45px;
 	width: 175px;
 	background-color: white;
@@ -49,7 +48,7 @@ a:hover {
   background-color: #f1f1f1;
   color: black;
   position: absolute;
-  margin-left: 0px;
+  margin-left: 0;
   
 }
 
@@ -74,7 +73,7 @@ div.tooltip {
 
 	padding: 5px;
 	font: 12px sans-serif;
-	border: 0px;
+	border: 0;
 	border-radius: 8px;
 	pointer-events: none;
 }
