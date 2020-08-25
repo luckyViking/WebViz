@@ -17,6 +17,12 @@ function linspace(min, max, N) {
     return lin;
 }
 
+function sigmoid(x){
+    x = ( Math.exp(x) ) / ( Math.exp(x) + 1 );
+    return x;
+}
+
+
 function StringArray2FloatArray(StringArray){
     var FloatArray = [];
     var ArrayLength = StringArray.length;
@@ -103,10 +109,11 @@ function processData(data, svm) {
 
 
         // TODO replace sign with sgimoid or tanh for example
-        z = z.map(z => z.map(sign))
+        // z = z.map(z => z.map(sign))
+        z = z.map(z => z.map(sigmoid))
 
         console.log(z)
-
+        debugger;
         createPlot(x1, x2, z, c, cNumeric, s);
 
     });
@@ -146,7 +153,7 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
         x: linX,
         y: linY,
         ncontours: 2,
-        opaycity: 0.5,
+        opacity: 1,
         transpose: true,
         hoverinfo: 'none',
         xaxis: 'x1',
