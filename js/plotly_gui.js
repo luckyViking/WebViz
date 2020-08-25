@@ -1,7 +1,7 @@
-function IrisShapesPlotly(svm){
+function IrisShapesPlotly(svm, dataset, kernel, epsilon){
     // Read and process data.
     Plotly.d3.csv('../data/iris.csv', function (data) {
-        processData(data, svm)
+        processData(data, svm, kernel, epsilon);
     });
 }
 
@@ -33,16 +33,25 @@ function StringArray2FloatArray(StringArray){
     return FloatArray;
 }
 
-function processData(data, svm) {
+function processData(data, svm, kernel, epsilon) {
+    if(kernel === 'linear'){
+        var svmKernel = svm.inner;
+    } else if(kernel === 'polynomial'){
+        var svmKernel = svm.polynomial;
+    }
+
     //Do SVM stuff here! See: gui.js
     let [svm_X, svm_y] = svm.recordsDataToSvmData(data, ['sepal_length', 'sepal_width'], 'species', 'setosa');
     let s = new svm.default({
-        X: svm_X, y: svm_y,
-        //
-        C: 10, tol: 1e-3, kernel: svm.inner, use_linear_optim: true,
+        X: svm_X,
+        y: svm_y,
+        C: 10,
+        tol: epsilon,
+        kernel: svmKernel,
+        use_linear_optim: true,
     });
     s.main_routine();
-    console.log(s);
+    console.log(s)
 
     // Define axis from data.
     var x = [[],[]], y = [[],[]], z = [];
@@ -55,9 +64,6 @@ function processData(data, svm) {
             });
         }
 
-
-
-        //TODO  parse to floats
         //var x1 = unpack(rows, 'sepal length');
         var x1 = StringArray2FloatArray(unpack(rows, 'sepal length'));
         var x2 = StringArray2FloatArray(unpack(rows, 'sepal width'));
@@ -96,7 +102,6 @@ function processData(data, svm) {
             for(var p=0; p<linY.length; p++){
                 tmp[p] = (s.output([linX[n], linY[p]]));
             }
-            //z.push(tmp);
             z[n]=tmp;
             tmp=[];
         }
@@ -108,27 +113,17 @@ function processData(data, svm) {
         }
 
 
-        // TODO replace sign with sgimoid or tanh for example
+        // Better use sigmoid instead of sign, when using contour plots.
         // z = z.map(z => z.map(sign))
         z = z.map(z => z.map(sigmoid))
 
-        console.log(z)
-        debugger;
         createPlot(x1, x2, z, c, cNumeric, s);
 
     });
-
-    //    z[n]=tmp;
-    //    tmp=[];
-    //}
-
-    createPlot(x, y, z, ['Setosa', 'Others']);
-
 }
 
 // Draw the plotly.
 function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
-
 
     // Define target div.
     var div = document.getElementById('iris-shapes');
@@ -227,7 +222,7 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
 
     // Layout settings.
     var layout = {
-        title: 'SVM: Iris with Dot-Kernel',
+        /*title: 'SVM: Iris with Dot-Kernel',*/
         showlegend: false,
         xaxis: {
             anchor: 'x1',

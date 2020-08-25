@@ -10,7 +10,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script async>
         $(document).ready(() => {
-            import("../js/svm.js").then(svm => IrisShapesPlotly(svm));
+            import("../js/svm.js").then(svm => IrisShapesPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val()));
 
             $('#forwards').click(function (e) {
                 e.preventDefault();
@@ -34,6 +34,7 @@
                 first.fadeIn(3000);
                 first.addClass('active');
 
+                import("../js/svm.js").then(svm => IrisShapesPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val()));
             });
 
         })
@@ -45,25 +46,7 @@
             svg: {fontCache: 'global'}
         };
     </script>
-
-    <!--<script>
-        MathJax = {
-            tex: {
-                tags: 'all'
-            }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
-    <style type="text/css">
-        .explanation {
-            display: none;
-        }
-
-        .active {
-            display: block;
-        }
-    </style>
 </head>
 <body>
 <div class="col-lg-12" style="height:30px; text-align: left;">
@@ -88,25 +71,27 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 col-lg-6 text-center">
+        <div class="col-md-12 col-lg-8 text-center">
             <div class="scatter" style="height:500px; width:100%;" id="iris-shapes"></div>
         </div>
-        <div class="col-md-12 col-lg-6">
+        <div class="col-md-12 col-lg-4">
             <form class="form-horizontal" action="">
                 <h3>Settings</h3>
                 <div class="form-group">
                     <label for="datasets" class="control-label col-sm-2">Dataset</label>
                     <div class="col-sm-10">
-                        <select id="datasets" class="form-control input-sm">
-                            <option>iris</option>
+                        <select id="datasets" name="datasets" class="form-control input-sm">
+                            <option value="iris">Iris</option>
+                            <option>...</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="kernel" class="control-label col-sm-2">Kernel</label>
                     <div class="col-sm-10">
-                        <select id="kernel" class="form-control input-sm ">
-                            <option>Linear</option>
+                        <select id="kernel" name="kernel" class="form-control input-sm ">
+                            <option value="linear">Linear</option>
+                            <option value="polynomial">Polynomial</option>
                         </select>
                     </div>
                 </div>
@@ -121,7 +106,8 @@
                         <button type="button" id="reload" class="form-control btn btn-success">Reload</button>
                     </div>
                     <div class=" col-sm-6">
-                        <button type="button" id="forwards" class="form-control btn btn-primary">Step forwards &rarr;</button>
+                        <button type="button" id="forwards" class="form-control btn btn-primary">Step forwards &rarr;
+                        </button>
                     </div>
                 </div>
             </form>
@@ -129,8 +115,33 @@
                 <h3>Values</h3>
             </div>-->
         </div>
-
     </div>
+
+    <div class="row">
+        <!--
+        <ol class="timeline">
+            <li>
+                <p class="timelineText">Why?</p>
+                <span class="point"></span>
+            </li>
+            <li>
+                <p class="timelineText">How?</p>
+                <span class="point"></span>
+            </li>
+            <li>
+                <p class="timelineText">...</p>
+                <span class="point"></span>
+            </li>
+            <li>
+                <p class="timelineText">...</p>
+                <span class="point"></span>
+            <li>
+                <p class="timelineText">References</p>
+                <span class="point"></span>
+            </li>
+        </ol>-->
+    </div>
+
     <div class="row" height="250px">
         <div class="col-md-12 col-lg-12">
             <div class="explanation active">
@@ -150,7 +161,7 @@
             </div>
             <div class="explanation">
                 <h2>How SVM works</h2>
-                 There are different types of the SVM: in the classification case, there is the original one the Maximal
+                There are different types of the SVM: in the classification case, there is the original one the Maximal
                 Margin Classifier, the kernelized version, the soft-margin version and the soft-margin kernelized
                 version which combines the first 3 versions and is used most frequently.
                 In the regression case there is the Support Vector Regression (SVR).
@@ -201,29 +212,29 @@
             </div>
             <div class="explanation">
                 <h2>References</h2>...
-            </p>
+                </p>
+            </div>
+
         </div>
-
     </div>
-</div>
 
-<hr>
-<footer>
-    <span>Frankfurt University of Applied Sciences</span>
-    <br>
-    <span>WebTools für die Lehre: SVM</span>
-    <br>
-    <br>
-    <span>Contributors:</span>
-    <br>
-    <span>Yasemin Er; </span>
-    <span>Hendrik Pfaff; </span>
-    <span>Lukas Atkinson; </span>
-    <span>Luca Jordan</span>
+    <hr>
+    <footer>
+        <span>Frankfurt University of Applied Sciences</span>
+        <br>
+        <span>WebTools für die Lehre: SVM</span>
+        <br>
+        <br>
+        <span>Contributors:</span>
+        <br>
+        <span>Yasemin Er; </span>
+        <span>Hendrik Pfaff; </span>
+        <span>Lukas Atkinson; </span>
+        <span>Luca Jordan</span>
 
-</footer>
+    </footer>
 
-<script src="../js/plotly_gui.js"></script>
+    <script src="../js/plotly_gui.js"></script>
 
 </body>
 </html>
