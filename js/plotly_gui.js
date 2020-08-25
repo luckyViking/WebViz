@@ -229,8 +229,14 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
     var layout = {
         title: 'SVM: Iris with Dot-Kernel',
         showlegend: false,
-        xaxis: {anchor: 'x1'},
-        yaxis: {anchor: 'x2'}
+        xaxis: {
+            anchor: 'x1',
+            title: 'Sepal length',
+        },
+        yaxis: {
+            anchor: 'x2',
+            title: 'Sepal width'
+        }
     };
 
     // Plot.
