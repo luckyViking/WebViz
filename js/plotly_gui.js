@@ -1,11 +1,25 @@
+/*
 function IrisShapesPlotly(svm, dataset, kernel, epsilon){
     // Read and process data.
     Plotly.d3.csv('../data/iris.csv', function (data) {
         processData(data, svm, kernel, epsilon);
     });
 }
+*/
 
-function linspace(min, max, N) {
+function loadPlotly(svm, dataset, kernel, epsilon, C){
+    switch (dataset){
+        case 'habermann': var dataPath = '../data/haberman.csv'; break;
+        default: var dataPath = '../data/iris.csv';  break;
+    }
+
+    Plotly.d3.csv(dataPath, function (data) {
+        processData(data, svm, kernel, epsilon, C);
+    });
+}
+
+
+function linspace(min, max, N=100) {
     domain = max - min;
     lin = [];
     d = domain / (N-1);
@@ -33,11 +47,10 @@ function StringArray2FloatArray(StringArray){
     return FloatArray;
 }
 
-function processData(data, svm, kernel, epsilon) {
-    if(kernel === 'linear'){
-        var svmKernel = svm.inner;
-    } else if(kernel === 'polynomial'){
-        var svmKernel = svm.polynomial;
+function processData(data, svm, kernel, epsilon, C) {
+    switch(kernel){
+        case 'polynomial': var svmKernel = svm.polynomial; break;
+        default: var svmKernel = svm.inner; break;
     }
 
     //Do SVM stuff here! See: gui.js
@@ -45,7 +58,7 @@ function processData(data, svm, kernel, epsilon) {
     let s = new svm.default({
         X: svm_X,
         y: svm_y,
-        C: 10,
+        C: C,
         tol: epsilon,
         kernel: svmKernel,
         use_linear_optim: true,
@@ -67,8 +80,8 @@ function processData(data, svm, kernel, epsilon) {
         //var x1 = unpack(rows, 'sepal length');
         var x1 = StringArray2FloatArray(unpack(rows, 'sepal length'));
         var x2 = StringArray2FloatArray(unpack(rows, 'sepal width'));
-        var x3 = StringArray2FloatArray(unpack(rows, 'petal length'));
-        var x4 = StringArray2FloatArray(unpack(rows, 'petal width'));
+        //var x3 = StringArray2FloatArray(unpack(rows, 'petal length'));
+        //var x4 = StringArray2FloatArray(unpack(rows, 'petal width'));
         var c = unpack(rows, 'class');
         var cNumeric = [];
 
@@ -85,17 +98,16 @@ function processData(data, svm, kernel, epsilon) {
             }
         }
 
+        // Define limits of axis.
         var x_min = Math.min.apply(null, x1.filter(function(n) { return !isNaN(n); }));
         var x_max = Math.max.apply(null, x1.filter(function(n) { return !isNaN(n); }));
-
         var y_min = Math.min.apply(null, x2.filter(function(n) { return !isNaN(n); }));
         var y_max = Math.max.apply(null, x2.filter(function(n) { return !isNaN(n); }));
 
 
-
         // Data of the contour.
-        var linX = linspace(x_min, x_max,100);
-        var linY = linspace(y_min, y_max, 100);
+        var linX = linspace(x_min, x_max);
+        var linY = linspace(y_min, y_max);
 
         var tmp = []
         for(var n=0; n<linX.length; n++){
@@ -118,7 +130,6 @@ function processData(data, svm, kernel, epsilon) {
         z = z.map(z => z.map(sigmoid))
 
         createPlot(x1, x2, z, c, cNumeric, s);
-
     });
 }
 
@@ -126,7 +137,7 @@ function processData(data, svm, kernel, epsilon) {
 function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
 
     // Define target div.
-    var div = document.getElementById('iris-shapes');
+    let div = document.getElementById('plot');
 
     // Contour plot.
     let x_min = 0.9 * Math.min.apply(Math, xData);
@@ -134,16 +145,18 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
     let y_min = 0.9 * Math.min.apply(Math, yData);
     let y_max = 1.1 * Math.max.apply(Math, yData);
 
-    linX = linspace(x_min, x_max, 100);
-    linY = linspace(y_min, y_max, 100);
+    let linX = linspace(x_min, x_max);
+    let linY = linspace(y_min, y_max);
 
-    var contour = {
+    let xTitle = 'Sepal length';
+    let yTitle = 'Sepal width';
+
+    let contour = {
         // separationLine
-        contours:{
+        contours: {
             coloring: 'lines'
         },
         z: zData,
-
         x: linX,
         y: linY,
         ncontours: 2,
@@ -154,34 +167,15 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
         yaxis: 'x2',
         type: 'contour',
         showscale: false,
-        colorscale:'red',
-        line:{
+        colorscale: 'red',
+        line: {
             smoothing: 1.3
         }
     };
 
-    var contour2 = {
-        x: linX,
-        y: linY,
-        z: labelsNumeric,
-        transpose: true,
-        type: 'contour',
-        colorscale:'Jet',
-    }
-
-    var contour3 = {
-        x: xData,
-        y: yData,
-        opacity: 0,
-        z: labelsNumeric,
-        //nconcouts: 2,
-        type: 'contour',
-        colorscale:'Jet'
-    }
-
-    var scatterPoints = {
+    let scatterPoints = {
         x: xData.filter((x, i) => svm.alphas[i] <= 0),
-        y:yData.filter((x, i) => svm.alphas[i] <= 0),
+        y: yData.filter((x, i) => svm.alphas[i] <= 0),
         mode: 'markers',
         hoverinfo: 'none',
         type:'scatter',
@@ -189,8 +183,6 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
             type: 'groupby',
             groups: labels.filter((x, i) => svm.alphas[i] <= 0),
             styles:[
-                //{target: -1, value: {marker: {color:'rgb(255,255,255)'}}},
-                //{target: 1, value: {marker: {color:'rgba(2,253,12,0.7)'}}}
                 {target: 'Iris-setosa', value: {marker:{color:'rgb(89,245,7)'}}},
                 {target: 'Iris-versicolor', value: {marker:{color:'rgb(252,252,252)'}}},
                 {target: 'Iris-virginica', value: {marker:{color:'rgb(245,7,7)'}}}
@@ -198,7 +190,7 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
         }],
     }
 
-    var scatterSupportVectors = {
+    let scatterSupportVectors = {
         x: xData.filter((x, i) => svm.alphas[i] > 0),
         y:yData.filter((x, i) => svm.alphas[i] > 0),
         mode: 'markers',
@@ -209,8 +201,6 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
             type: 'groupby',
             groups: labels.filter((x, i) => svm.alphas[i] > 0),
             styles:[
-                //{target: -1, value: {marker: {color:'rgb(255,255,255)'}}},
-                //{target: 1, value: {marker: {color:'rgba(2,253,12,0.7)'}}}
                 {target: 'Iris-setosa', value: {marker:{color:'rgba(127,16,198,0.95)'}}},
                 {target: 'Iris-versicolor', value: {marker:{color:'rgba(127,16,198,0.95)'}}},
                 {target: 'Iris-virginica', value: {marker:{color:'rgba(127,16,198,0.95)'}}}
@@ -218,19 +208,18 @@ function createPlot(xData, yData, zData, labels, labelsNumeric, svm) {
         }],
     }
 
-    var data = [scatterPoints, scatterSupportVectors, contour];
+    let data = [scatterPoints, scatterSupportVectors, contour];
 
     // Layout settings.
-    var layout = {
-        /*title: 'SVM: Iris with Dot-Kernel',*/
+    let layout = {
         showlegend: false,
         xaxis: {
             anchor: 'x1',
-            title: 'Sepal length',
+            title: xTitle
         },
         yaxis: {
             anchor: 'x2',
-            title: 'Sepal width'
+            title: yTitle
         }
     };
 
