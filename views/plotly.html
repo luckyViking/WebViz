@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script async>
         $(document).ready(() => {
@@ -73,24 +74,25 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 col-lg-8 text-center">
+        <div class="col-md-12 col-lg-9 text-center">
             <div class="scatter" style="height:500px; width:100%;" id="plot"></div>
         </div>
-        <div class="col-md-12 col-lg-4">
+        <div class="col-md-12 col-lg-3">
             <form class="form-horizontal" action="">
                 <h3>Settings</h3>
                 <div class="form-group">
-                    <label for="datasets" class="control-label col-sm-2">Dataset</label>
-                    <div class="col-sm-10">
+                    <label for="datasets" class="control-label col-sm-3">Dataset</label>
+                    <div class="col-sm-9">
                         <select id="datasets" name="datasets" class="form-control input-sm">
                             <option value="iris">Iris</option>
-                            <option value="habermann">Haberman</option>
+                            <option value="haberman">Haberman</option>
+                            <option value="abalone">Abalone</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="kernel" class="control-label col-sm-2">Kernel</label>
-                    <div class="col-sm-10">
+                    <label for="kernel" class="control-label col-sm-3">Kernel</label>
+                    <div class="col-sm-9">
                         <select id="kernel" name="kernel" class="form-control input-sm ">
                             <option value="linear">Linear</option>
                             <option value="polynomial">Polynomial</option>
@@ -98,24 +100,23 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="epsilon" class="control-label col-sm-2">Epsilon</label>
-                    <div class="col-sm-10">
+                    <label for="epsilon" class="control-label col-sm-3">Epsilon</label>
+                    <div class="col-sm-9">
                         <input type="number" name="epsilon" id="epsilon" value="1e-3" class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="epsilon" class="control-label col-sm-2">C</label>
-                    <div class="col-sm-10">
+                    <label for="epsilon" class="control-label col-sm-3">C</label>
+                    <div class="col-sm-9">
                         <input type="number" name="c" id="c" value="10" class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-6">
-                        <button type="button" id="reload" class="form-control btn btn-success">Reload</button>
+                        <button type="button" id="reload" class="form-control btn btn-success"><i class="fa fa-refresh"></i> Reload</button>
                     </div>
                     <div class=" col-sm-6">
-                        <button type="button" id="forwards" class="form-control btn btn-primary">Step forwards &rarr;
-                        </button>
+                        <button type="button" id="forwards" class="form-control btn btn-primary"><i class="fa fa-arrow-right"></i> Forwards</button>
                     </div>
                 </div>
             </form>
