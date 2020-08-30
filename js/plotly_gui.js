@@ -10,18 +10,11 @@ function IrisShapesPlotly(svm, dataset, kernel, epsilon){
 function loadPlotly(svm, dataset, kernel, epsilon, C) {
     //  Process user input.
     switch (dataset) {
-        case 'abalone':
-            var dataPath = '../data/abalone.csv';
+        case 'salmon' :
+            var dataPath = '../data/salmon.csv';
             var Xcols = ['length', 'diameter'];
             var axisTitles = ['Length', 'Diameter'];
-            var ycol = 'sex';
-            var target = 'M';
-            break;
-        case 'haberman':
-            var dataPath = '../data/haberman.csv';
-            var Xcols = ['nodes', 'age'];
-            var axisTitles = ['Nodes', 'Age'];
-            var ycol = 'survivalstatus';
+            var ycol = 'young';
             var target = '1';
             break;
         default:
