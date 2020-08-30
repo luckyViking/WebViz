@@ -5,41 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script async>
         $(document).ready(() => {
-            //import("../js/svm.js").then(svm => IrisShapesPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val()));
             import("../js/svm.js").then(svm => loadPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val(), $('#c').val()));
+            let currentExp = 0;
+
+            let loadExplanation = function(id){
+                id = id%5; // ToDo: replace with number of explanations.
+
+                let currentActiveExp = $('.explanation.active');
+                currentActiveExp.fadeOut(1000);
+                currentActiveExp.removeClass('active');
+
+                let newExp = $('#exp'+id);
+                newExp.fadeIn(3000);
+                newExp.addClass('active');
+
+                $('.point').css('background-color', 'white');
+                $('.point[data-target='+id+']').css('background-color', 'orange');
+            };
+
+            loadExplanation(currentExp);
 
             $('#forwards').click(function (e) {
                 e.preventDefault();
-                console.log("Forward");
-                var element = $('.explanation.active');
-                element.fadeOut(1000);
-                element.removeClass('active');
-                element.next().fadeIn(3000);
-                element.next().addClass('active');
+                currentExp += 1;
+                loadExplanation(currentExp);
+
             });
 
             $('#reload').click(function (e) {
                 e.preventDefault();
-                console.log("Reload");
-
-                var active = $('.explanation.active');
-                active.fadeOut(1000);
-                active.removeClass('active');
-
-                var first = $('.explanation').first();
-                first.fadeIn(3000);
-                first.addClass('active');
-
-                //import("../js/svm.js").then(svm => IrisShapesPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val()));
+                currentExp = 0;
+                loadExplanation(currentExp);
                 import("../js/svm.js").then(svm => loadPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val(), $('#c').val()));
             });
 
+            $('.timelineText').click(function(e){
+                e.preventDefault();
+                currentExp = parseInt($(this).attr('data-target'));
+                loadExplanation(currentExp);
+            });
         })
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
@@ -49,7 +60,6 @@
             svg: {fontCache: 'global'}
         };
     </script>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 <body>
 <div class="col-lg-12" style="height:30px; text-align: left;">
@@ -63,7 +73,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="">
+        <div class="introduction">
             <h2>Introduction</h2>
             <p>This website was created as part of the digitalization project "Webtools for teaching" at <a
                     href="https://www.frankfurt-university.de/en/" target="_blank">Frankfurt University of Applied
@@ -102,7 +112,7 @@
                 <div class="form-group">
                     <label for="epsilon" class="control-label col-sm-3">Epsilon</label>
                     <div class="col-sm-9">
-                        <input type="number" name="epsilon" id="epsilon" value="1e-3" class="form-control input-sm"/>
+                        <input type="number" name="epsilon" id="epsilon" value="0.001" class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -124,33 +134,32 @@
     </div>
 
     <div class="row">
-        <!--
         <ol class="timeline">
             <li>
-                <p class="timelineText">Why?</p>
-                <span class="point"></span>
+                <a class="timelineText" data-target="0" href="#">Why?</a>
+                <span class="point" data-target="0"></span>
             </li>
             <li>
-                <p class="timelineText">How?</p>
-                <span class="point"></span>
+                <a class="timelineText" data-target="1" href="#">How?</a>
+                <span class="point" data-target="1"></span>
             </li>
             <li>
-                <p class="timelineText">...</p>
-                <span class="point"></span>
+                <a class="timelineText" data-target="2" href="#">Lorem</a>
+                <span class="point" data-target="2"></span>
             </li>
             <li>
-                <p class="timelineText">...</p>
-                <span class="point"></span>
+                <a class="timelineText" data-target="3" href="#">Ipsum</a>
+                <span class="point" data-target="3"></span>
             <li>
-                <p class="timelineText">References</p>
-                <span class="point"></span>
+                <a class="timelineText" data-target="4" href="#">References</a>
+                <span class="point" data-target="4"></span>
             </li>
-        </ol>-->
+        </ol>
     </div>
 
     <div class="row">
         <div class="col-md-12 col-lg-12">
-            <div class="explanation active">
+            <div class="explanation" id="exp0">
                 <h2>Why SVM?</h2>
                 The Support Vector Machine (SVM) is one of the most modern technique used for regression-and
                 classification problems.
@@ -165,7 +174,7 @@
                 $$y(x,w) = \sum_{m=0}^{M} w_m \phi_m(x) = w^T\phi \label{ref1}$$
                 Here, $\phi_{m}(x)$ are basis functions and the parameters ${w_m}$ are the associated weights.
             </div>
-            <div class="explanation">
+            <div class="explanation" id="exp1">
                 <h2>How SVM works</h2>
                 There are different types of the SVM: in the classification case, there is the original one the Maximal
                 Margin Classifier, the kernelized version, the soft-margin version and the soft-margin kernelized
@@ -176,7 +185,8 @@
                 $$y(x,w)=\sum_{i=1}^{N}w_{i}K(x,x_i)+w_0 \label{ref2}$$
                 where K stands for kernel functions.
             </div>
-            <div class="explanation">
+            <div class="explanation" id="exp2">
+                <h2>Lorem</h2>
                 The SVM searches for the optimal hyperplane that best separates the data by maximizing the margin.
                 Maximizing the margin is an optimization problem that is equivalent to minimizing the norm of the weight
                 vector:
@@ -193,7 +203,8 @@
                 $$w=\sum_{i=1}^{m}\alpha_{i}y_{i}x_{i} \label{ref5}$$
                 $$b=y_{i}-w*x_{i} \label{ref6}$$
             </div>
-            <div class="explanation">
+            <div class="explanation" id="exp3">
+                <h2>Ipsum</h2>
                 Because (\ref{ref4}) contains inequality constraints, the solution must fulfill certain conditions, the
                 Karush-Kuhn-Tucker (KKT) conditions.
                 These conditions are: stationarity-, primal feasibility-, dual feasibility- and complementary slackness
@@ -216,11 +227,10 @@
                 $$\zeta_{i} \geq 0 \space for \space any \space i=1,...,m $$
                 The hyperparameter $C$ can then be used to control how the SVM should deal with outliers.
             </div>
-            <div class="explanation">
+            <div class="explanation" id="exp4">
                 <h2>References</h2>...
                 <p></p>
             </div>
-
         </div>
     </div>
 
