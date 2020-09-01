@@ -8,9 +8,12 @@ footer{
 	margin-top: 50px;
 }
 
-.scatter{
+#plot{
 	text-align: center;
+	width:100%;
+	min-height:500px;
 }
+
 .field{
 	height: 150px;
 	width: 90%;
@@ -117,7 +120,7 @@ div.tooltip {
 .timeline {
 	position: relative;
 	display: block;
-	margin: 5%;
+	margin: 10% 5% 5% 5%;
 	height: 4px;
 	background: #31708F;
 }

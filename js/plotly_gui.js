@@ -7,20 +7,22 @@ function IrisShapesPlotly(svm, dataset, kernel, epsilon){
 }
 */
 
-function loadPlotly(svm, dataset, kernel, epsilon, C) {
+function loadPlotly(svm, dataset, kernel, epsilon, C, style) {
     //  Process user input.
     switch (dataset) {
         case 'salmon' :
             var dataPath = '../data/salmon.csv';
             var Xcols = ['length', 'diameter'];
-            var axisTitles = ['Length', 'Diameter'];
+            var plotTitle = 'Classification of subadult salmons';
+            var axisTitles = ['Length [cm]', 'Diameter [cm]'];
             var ycol = 'young';
             var target = '1';
             break;
         default:
             var dataPath = '../data/iris.csv';
             var Xcols = ['sepal_length', 'sepal_width'];
-            var axisTitles = ['Sepal length', 'Sepal width'];
+            var plotTitle = 'Classification of "Setosa" species';
+            var axisTitles = ['Sepal length [cm]', 'Sepal width [cm]'];
             var ycol = 'species';
             var target = 'setosa';
             break;
@@ -37,7 +39,8 @@ function loadPlotly(svm, dataset, kernel, epsilon, C) {
 
     // Start.
     Plotly.d3.csv(dataPath, function (data) {
-        processData(data, Xcols, ycol, target, svm, svmKernel, epsilon, C, axisTitles);
+        let [x, y, z, labels, s] = processData(data, Xcols, ycol, target, svm, svmKernel, epsilon, C);
+        createPlot(x, y, z, labels, s, plotTitle, axisTitles, target, style);
     });
 }
 
@@ -69,7 +72,7 @@ function StringArray2FloatArray(StringArray) {
     return FloatArray;
 }
 
-function processData(data, Xcols, ycol, target, svm, kernel, epsilon, C, axisTitles) {
+function processData(data, Xcols, ycol, target, svm, kernel, epsilon, C) {
      //Do SVM stuff here! See: gui.js
     let [svm_X, svm_y] = svm.recordsDataToSvmData(data, Xcols, ycol, target);
     let s = new svm.default({
@@ -152,11 +155,12 @@ function processData(data, Xcols, ycol, target, svm, kernel, epsilon, C, axisTit
     // Better use sigmoid instead of sign, when using contour plots.
     z = z.map(z => z.map(sigmoid))
 
-    createPlot(x, y, z, labels, s, axisTitles);
+    //createPlot(x, y, z, labels, s, axisTitles);
+    return [x, y, z, labels, s]
 }
 
 // Draw the plotly.
-function createPlot(xData, yData, zData, labels, svm, axisTitles=['x', 'y']) {
+function createPlot(xData, yData, zData, labels, svm, plotTitle, axisTitles=['x', 'y'], target, style) {
 
     // Define target div.
     let div = document.getElementById('plot');
@@ -171,10 +175,10 @@ function createPlot(xData, yData, zData, labels, svm, axisTitles=['x', 'y']) {
     let linY = linspace(y_min, y_max);
 
     let contour = {
-        // separationLine
         contours: {
-            coloring: 'lines'
+            coloring: style
         },
+        colorscale: 'YlGnBu',
         z: zData,
         x: linX,
         y: linY,
@@ -186,13 +190,13 @@ function createPlot(xData, yData, zData, labels, svm, axisTitles=['x', 'y']) {
         yaxis: 'x2',
         type: 'contour',
         showscale: false,
-        colorscale: 'red',
         line: {
             smoothing: 1.3
         }
     };
 
     let scatterPoints = {
+        // All data points that are no support vectors.
         x: xData.filter((x, i) => svm.alphas[i] <= 0),
         y: yData.filter((x, i) => svm.alphas[i] <= 0),
         mode: 'markers',
@@ -201,15 +205,18 @@ function createPlot(xData, yData, zData, labels, svm, axisTitles=['x', 'y']) {
         transforms: [{
             type: 'groupby',
             groups: labels.filter((x, i) => svm.alphas[i] <= 0),
-            /*styles: [
-                {target: 'setosa', value: {marker: {color: 'rgb(89,245,7)'}}},
-                {target: 'versicolor', value: {marker: {color: 'rgb(252,252,252)'}}},
-                {target: 'virginica', value: {marker: {color: 'rgb(245,7,7)'}}}
-            ]*/
+            style: [
+                {target: target, value: {marker: {color: 'rgb(245,7,7)'}}}
+                //{target: target, value: {marker: {color: 'rgb(89,245,7)'}}}
+            ]
         }],
+        marker: {
+            line: {color: 'rgb(0,0,0)', width: 1}
+        }
     }
 
     let scatterSupportVectors = {
+        // All data points that are used as support vectors by svm
         x: xData.filter((x, i) => svm.alphas[i] > 0),
         y: yData.filter((x, i) => svm.alphas[i] > 0),
         mode: 'markers',
@@ -219,12 +226,14 @@ function createPlot(xData, yData, zData, labels, svm, axisTitles=['x', 'y']) {
         transforms: [{
             type: 'groupby',
             groups: labels.filter((x, i) => svm.alphas[i] > 0),
-            /*styles: [
-                {target: 'setosa', value: {marker: {color: 'rgba(127,16,198,0.95)'}}},
-                {target: 'versicolor', value: {marker: {color: 'rgba(127,16,198,0.95)'}}},
-                {target: 'virginica', value: {marker: {color: 'rgba(127,16,198,0.95)'}}}
-            ]*/
+            style: [
+                {target: target, value: {marker: {color: 'rgb(245,7,7)'}}}
+            ]
         }],
+        marker: {
+            line: {color: 'rgb(0,0,0)', width: 1},
+            symbol: 'diamond'
+        }
     }
 
     let data = [scatterPoints, scatterSupportVectors, contour];
@@ -239,7 +248,8 @@ function createPlot(xData, yData, zData, labels, svm, axisTitles=['x', 'y']) {
         yaxis: {
             anchor: 'x2',
             title: axisTitles[1]
-        }
+        },
+        title: plotTitle
     };
 
     // Plot.

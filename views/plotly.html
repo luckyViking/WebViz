@@ -12,7 +12,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script async>
         $(document).ready(() => {
-            import("../js/svm.js").then(svm => loadPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val(), $('#c').val()));
+            import("../js/svm.js").then(svm => loadPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val(), $('#c').val(), $('#style').val()));
             let currentExp = 0;
 
             let loadExplanation = function(id){
@@ -43,7 +43,7 @@
                 e.preventDefault();
                 currentExp = 0;
                 loadExplanation(currentExp);
-                import("../js/svm.js").then(svm => loadPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val(), $('#c').val()));
+                import("../js/svm.js").then(svm => loadPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val(), $('#c').val(), $('#style').val()));
             });
 
             $('.timelineText').click(function(e){
@@ -85,11 +85,11 @@
     </div>
     <div class="row">
         <div class="col-md-12 col-lg-9 text-center">
-            <div class="scatter" style="height:500px; width:100%;" id="plot"></div>
+            <div class="scatter" id="plot"></div>
         </div>
         <div class="col-md-12 col-lg-3">
             <form class="form-horizontal" action="">
-                <h3>Settings</h3>
+                <h3>SVM Settings</h3>
                 <div class="form-group">
                     <label for="datasets" class="control-label col-sm-3">Dataset</label>
                     <div class="col-sm-9">
@@ -105,6 +105,7 @@
                         <select id="kernel" name="kernel" class="form-control input-sm ">
                             <option value="linear">Linear</option>
                             <option value="polynomial">Polynomial</option>
+                            <option value="rbf">Radial Basis Function</option>
                         </select>
                     </div>
                 </div>
@@ -115,11 +116,22 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="epsilon" class="control-label col-sm-3">C</label>
+                    <label for="c" class="control-label col-sm-3">C</label>
                     <div class="col-sm-9">
                         <input type="number" name="c" id="c" value="10" class="form-control input-sm"/>
                     </div>
                 </div>
+                <hr/>
+                <div class="form-group">
+                    <label for="style" class="control-label col-sm-3">Style</label>
+                    <div class="col-sm-9">
+                        <select name="style" id="style" class="form-control input-sm">
+                            <option value="lines">Lines</option>
+                            <option value="heatmap">Heatmap</option>
+                        </select>
+                    </div>
+                </div>
+                <hr/>
                 <div class="form-group">
                     <div class="col-sm-6">
                         <button type="button" id="reload" class="form-control btn btn-success"><i class="fa fa-refresh"></i> Reload</button>
