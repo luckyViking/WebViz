@@ -20,7 +20,7 @@
             let currentExp = 0;
 
             let loadExplanation = function(id){
-                id = id%5; // ToDo: replace with number of explanations.
+                id = id%6; // ToDo: replace with number of explanations.
 
                 let currentActiveExp = $('.explanation.active');
                 currentActiveExp.fadeOut(1000);
@@ -169,6 +169,10 @@
                 <a class="timelineText" data-target="4" href="#">References</a>
                 <span class="point" data-target="4"></span>
             </li>
+            <li>
+                <a class="timelineText" data-target="5" href="#">Parameters</a>
+                <span class="point" data-target="5"></span>
+            </li>
         </ol>
     </div>
 
@@ -242,6 +246,7 @@
                 $$\zeta_{i} \geq 0 \space for \space any \space i=1,...,m $$
                 The hyperparameter $C$ can then be used to control how the SVM should deal with outliers.
             </div>
+
             <div class="explanation" id="exp4">
                 <h2>References</h2>
                 <ul>
@@ -249,6 +254,43 @@
                     <li><a href="https://papers.nips.cc/paper/1719-the-relevance-vector-machine.pdf" target="_blank">https://papers.nips.cc/paper/1719-the-relevance-vector-machine.pdf</a></li>
                     <li><a href="https://de.wikipedia.org/wiki/Support_Vector_Machine" target="_blank">https://de.wikipedia.org/wiki/Support_Vector_Machine</a></li>
                 </ul>
+            </div>
+            <div class="explanation" id="exp5">
+                <h2>Parameters</h2>
+                When changing the parameters, see that when you want to apply a larger <b>C</b>, often a smaller
+                <b>&epsilon;</b> is required and vice versa.In many cases, a bad combination of the two parameters will
+                result in not seeing the decision boundary, as they move outside the plotting domain.
+
+                <h3>Epsilon &epsilon;</h3>
+                Intuitively, the <b>&epsilon;</b> parameter defines how far the influence of a single training example
+                reaches, with low values meaning ‘far’ and high values meaning ‘close’.
+                The <b>&epsilon;</b> parameters can be seen as the inverse of the radius of influence of samples selected by
+                the model as support vectors.
+                When <b>&epsilon;</b> is very small, the model is too constrained and cannot capture the complexity or “shape” of
+                the data. The region of influence of any selected support vector would include the whole training set.
+                The resulting model will behave similarly to a linear model with a set of hyperplanes that separate the
+                centers of high density of any pair of two classes.
+
+                <h3>C</h3>
+                The <b>C</b> parameter trades off correct classification of training examples against maximization of
+                the decision function’s margin. For larger values of <b>C</b>, a smaller margin will be accepted if the
+                decision function is better at classifying all training points correctly.
+                A lower <b>C</b> will encourage a larger margin, therefore a simpler decision function, at the cost of
+                training accuracy. In other words: C behaves as a regularization parameter in the SVM.
+                As you can see when applying larger values for C, the support vectors move farther away from the
+                decision boundary. Support vectors are displayed as X's.
+
+
+                <div style="margin-top: 10px">
+                    <ul id="centeredUL">
+                        <li> <i><b>Small C</b></i> makes the constraints easy to ignore which leads to a large margin.</li>
+                        <li> <i><b>Large C</b></i> allows the constraints hard to be ignored which leads to a small margin.</li>
+                        <li>For <i><b>C = inf</b></i>, all the constraints are enforced.</li>
+                    </ul>
+                </div>
+
+
+
             </div>
         </div>
     </div>
