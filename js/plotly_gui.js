@@ -32,6 +32,9 @@ function loadPlotly(svm, dataset, kernel, epsilon, C, style) {
         case 'polynomial':
             var svmKernel = svm.polynomial;
             break;
+        case 'rbf':
+            var svmKernel = svm.rbf;
+            break;
         default:
             var svmKernel = svm.inner;
             break;
@@ -207,10 +210,10 @@ function createPlot(xData, yData, zData, labels, svm, plotTitle, axisTitles=['x'
             groups: labels.filter((x, i) => svm.alphas[i] <= 0),
             style: [
                 {target: target, value: {marker: {color: 'rgb(245,7,7)'}}}
-                //{target: target, value: {marker: {color: 'rgb(89,245,7)'}}}
             ]
         }],
         marker: {
+            size: 8,
             line: {color: 'rgb(0,0,0)', width: 1}
         }
     }
@@ -227,12 +230,14 @@ function createPlot(xData, yData, zData, labels, svm, plotTitle, axisTitles=['x'
             type: 'groupby',
             groups: labels.filter((x, i) => svm.alphas[i] > 0),
             style: [
-                {target: target, value: {marker: {color: 'rgb(245,7,7)'}}}
+                {target: target, value: {marker: {color: 'rgb(245,7,7)'}}},
+                {target: '0', value: {marker: {color: 'orange'}}}
             ]
         }],
         marker: {
+            size: 8,
             line: {color: 'rgb(0,0,0)', width: 1},
-            symbol: 'diamond'
+            symbol: 'x'
         }
     }
 

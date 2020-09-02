@@ -111,10 +111,9 @@ div.tooltip {
 	padding: 1%;
 }
 
-.active {
-	display: block;
+.explanation ul {
+	text-align: left;
 }
-
 
 /* ---- Timeline ---- */
 .timeline {
