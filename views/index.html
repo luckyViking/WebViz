@@ -45,6 +45,7 @@
 
             $('#reload').click(function (e) {
                 e.preventDefault();
+                $('#values').empty();
                 currentExp = 0;
                 loadExplanation(currentExp);
                 import("../js/svm.js").then(svm => loadPlotly(svm, $('#datasets').val(), $('#kernel').val(), $('#epsilon').val(), $('#c').val(), $('#style').val()));
@@ -57,13 +58,15 @@
             });
         })
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!--<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <script>
         MathJax = {
             tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
             svg: {fontCache: 'global'}
         };
-    </script>
+    </script>-->
 </head>
 <body>
 <div class="col-lg-12" style="height:30px; text-align: left;">
@@ -148,10 +151,10 @@
                         </button>
                     </div>
                 </div>
+                <h3>Values</h3>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <h3>Values</h3>
-                        <ul id="values"></ul>
+                        <ul id="values" style="text-align: left;"></ul>
                     </div>
                 </div>
             </form>
@@ -169,12 +172,16 @@
                 <span class="point" data-target="1"></span>
             </li>
             <li>
-                <a class="timelineText" data-target="2" href="#">Parameters</a>
+                <a class="timelineText" data-target="2" href="#">Kernels</a>
                 <span class="point" data-target="2"></span>
             </li>
             <li>
-                <a class="timelineText" data-target="3" href="#">References</a>
+                <a class="timelineText" data-target="3" href="#">Parameters</a>
                 <span class="point" data-target="3"></span>
+            </li>
+            <li>
+                <a class="timelineText" data-target="4" href="#">References</a>
+                <span class="point" data-target="4"></span>
             </li>
 
         </ol>
@@ -261,6 +268,10 @@
                 </p>
             </div>
             <div class="explanation" id="exp2">
+                <h2>Kernels</h2>
+                <p>...</p>
+            </div>
+            <div class="explanation" id="exp3">
                 <h2>Parameters</h2>
                 <p>
                     When changing the parameters, see that when you want to apply a larger <b>C</b>, often a smaller
@@ -300,7 +311,7 @@
                 </p>
 
             </div>
-            <div class="explanation" id="exp3">
+            <div class="explanation" id="exp4">
                 <h2>References</h2>
                 <ul>
                     <li><a href="https://www.syncfusion.com/ebooks/support_vector_machines_succinctly"

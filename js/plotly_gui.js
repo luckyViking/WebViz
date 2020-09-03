@@ -43,7 +43,7 @@ function loadPlotly(svm, dataset, kernel, epsilon, C, style) {
     // Start.
     Plotly.d3.csv(dataPath, function (data) {
         let [x, y, z, labels, s] = processData(data, Xcols, ycol, target, svm, svmKernel, epsilon, C);
-        showValues();
+        showValues(x, y, z, labels, s);
         createPlot(x, y, z, labels, s, plotTitle, axisTitles, target, style);
     });
 }
@@ -163,7 +163,20 @@ function processData(data, Xcols, ycol, target, svm, kernel, epsilon, C) {
     return [x, y, z, labels, s]
 }
 
-function showValues(){
+function showValues(xData, yData, zData, labels, svm){
+    // Finding the current support vectors.
+    let svX = xData.filter((x, i) => svm.alphas[i] > 0);
+    let svY = yData.filter((x, i) => svm.alphas[i] > 0);
+    let sv = '(' + xData[0] + '|' + yData[0] + ')';
+    for(let i = 1; i<svX.length; i++){
+        sv += ', (' + svX[i] + '|' + svY[i] + ')';
+    }
+    $('#values').append('<li><strong>Support Vectors:</strong> ' + sv + '</li>');
+
+    // Calculating the accuracy.
+    console.log(labels);
+    let acc = 0.0 / xData.length;
+    $('#values').append('<li><strong>Accuracy (ACC): </strong>' + acc + '</li>');
 }
 
 // Draw the plotly.
