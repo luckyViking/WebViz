@@ -43,6 +43,7 @@ function loadPlotly(svm, dataset, kernel, epsilon, C, style) {
     // Start.
     Plotly.d3.csv(dataPath, function (data) {
         let [x, y, z, labels, s] = processData(data, Xcols, ycol, target, svm, svmKernel, epsilon, C);
+        showValues();
         createPlot(x, y, z, labels, s, plotTitle, axisTitles, target, style);
     });
 }
@@ -160,6 +161,9 @@ function processData(data, Xcols, ycol, target, svm, kernel, epsilon, C) {
 
     //createPlot(x, y, z, labels, s, axisTitles);
     return [x, y, z, labels, s]
+}
+
+function showValues(){
 }
 
 // Draw the plotly.
