@@ -289,7 +289,8 @@
                 “shape” of
                 the data. The region of influence of any selected support vector would include the whole training set.
                 The resulting model will behave similarly to a linear model with a set of hyperplanes that separate the
-                centers of high density of any pair of two classes.
+                centers of high density of any pair of two classes.<br>
+                <b>Keep &epsilon; between 0.001 and 1</b>
 
                 <h3>C</h3>
                 The <b>C</b> parameter trades off correct classification of training examples against maximization of
@@ -306,7 +307,10 @@
                     <li><i><b>Large C</b></i> allows the constraints hard to be ignored which leads to a small margin.
                     </li>
                     <li>For <i><b>C = inf</b></i>, all the constraints are enforced.</li>
+
                 </ul>
+
+                <b>Keep C between 1 and 10000</b>
 
                 </p>
 
