@@ -152,7 +152,8 @@ div.tooltip {
 	position: relative;
 	display: inline-block;
 	float: left;
-	width: 16.6667%;
+	/*width: 16.6667%;*/
+	width: 25%;
 	font: bold 14px arial;
 	height: 50px;
 }

@@ -82,8 +82,8 @@ function processData(data, Xcols, ycol, target, svm, kernel, epsilon, C) {
     let s = new svm.default({
         X: svm_X,
         y: svm_y,
-        C: C,
-        tol: epsilon,
+        C: parseInt(C),
+        tol: parseFloat(epsilon),
         kernel: kernel,
         use_linear_optim: true,
     });
