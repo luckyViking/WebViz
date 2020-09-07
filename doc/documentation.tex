@@ -1,5 +1,9 @@
 \documentclass{scrartcl}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{subfig}
+
+\graphicspath{{./images/}}
 
 \title{Explainable SVM}
 \subtitle{Online Visualizations for Teaching}
@@ -33,6 +37,20 @@ to explain how Support Vector Machines (SVM) work.
 \subsubsection*{Epsilon $\epsilon$}
 Intuitively, the $\epsilon$ parameter defines how far the influence of a single training example reaches, with low values meaning ‘far’ and high values meaning ‘close’. The $\epsilon$ parameters can be seen as the inverse of the radius of influence of samples selected by the model as support vectors. When $\epsilon$ is very small, the model is too constrained and cannot capture the complexity or 'shape' of the data. The region of influence of any selected support vector would include the whole training set. The resulting model will behave similarly to a linear model with a set of hyperplanes that separate the centers of high density of any pair of two classes. 
 
+\begin{figure}%
+	\centering
+	\includegraphics[height=8cm]{{../images/IrisLin001_1.png}}
+	\caption{Small Epsilon (0.001) in combination with small C shifts the decision boundary evenly between the two classes that are to be separated. The support vectors are displayed as crosses. Based on these vectors, the boundary is drawn.}
+	\label{fig:example}%
+\end{figure}
+
+\begin{figure}%
+	\centering
+	\includegraphics[height=8cm]{{../images/IrisLin51.png}}
+	\caption{Large Epsilon (0.5) shifts the decision boundary too far into the red cluster. This is due to the parameter Epsilon regulating how much influence each datapoint is assigned to, to move the decision boundary. In this case, the choice of parameters is not optimal, nevertheless most datapoints from the red cluster are classified correctly.}%
+	\label{fig:example}%
+\end{figure}
+\newpage
 \subsubsection*{C}
 The C parameter trades off correct classification of training examples against maximization of the decision function’s margin. For larger values of C, a smaller margin will be accepted if the decision function is better at classifying all training points correctly. A lower C will encourage a larger margin, therefore a simpler decision function, at the cost of training accuracy. In other words: C behaves as a regularization parameter in the SVM. As you can see when applying larger values for C, the support vectors move farther away from the decision boundary. Support vectors are displayed as X's. 
 
@@ -42,8 +60,24 @@ The C parameter trades off correct classification of training examples against m
 	\item For \textbf{C = inf}, all the constraints are enforced.
 \end{itemize}
 
-% TODO: provide some mathematical background
+\begin{figure}[h!]%
+	\centering
+	\includegraphics[height=8cm]{{../images/SalmonLin75_1.png}}
+	\caption{When picking a small value (~1) for the C parameter in combination with a large Epsilon (0.75) the decision boundary is placed correctly balanced between the two classes.}
+	\label{fig:example}%
+\end{figure}
 
+\begin{figure}[h!]%
+	\centering
+	\includegraphics[height=8cm]{{../images/SalmonLin75_10k.png}}
+	\caption{With an increasingly large C parameter (C=10.000) the decision boundary may move too much towards one of the class clusters. In this example, the prediction of the orange datapoints is still correct, yet it is clearly visible that some datapoints are dangerously close to the decision boundary.}%
+	\label{fig:example}%
+\end{figure}
+
+
+
+% TODO: provide some mathematical background
+\newpage
 \section{Installation}
 
 The visualizations are implemented in client-side JavaScript,
