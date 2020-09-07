@@ -62,7 +62,7 @@
     <script>
      // create MathJax config *before* MathJax is loaded
      MathJax = {
-       tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+       tex: {inlineMath: [['$', '$'], ['\\(', '\\)']], tags: 'ams'},
        svg: {fontCache: 'global'}
      };
     </script>
@@ -205,7 +205,11 @@
                     In regression $t$ is a continuous variable. The prediction $y(x,w)$ is expressed as the following
                     linear
                     model:
-                    $$y(x,w) = \sum_{m=0}^{M} w_m \phi_m(x) = w^T\phi \label{ref1}$$
+                    $$
+                    \begin{equation}
+                    y(x,w) = \sum_{m=0}^{M} w_m \phi_m(x) = w^T\phi \label{ref1}
+                    \end{equation}
+                    $$
                     Here, $\phi_{m}(x)$ are basis functions and the parameters ${w_m}$ are the associated weights.
                 </p>
             </div>
@@ -219,7 +223,11 @@
                     In the regression case there is the Support Vector Regression (SVR).
                     However, all SVMs are basically a specialization of (\ref{ref1}) and make predictions based on the
                     following function:
-                    $$y(x,w)=\sum_{i=1}^{N}w_{i}K(x,x_i)+w_0 \label{ref2}$$
+                    $$
+                    \begin{equation}
+                    y(x,w)=\sum_{i=1}^{N}w_{i}K(x,x_i)+w_0 \label{ref2}
+                    \end{equation}
+                    $$
                     where K stands for kernel functions.
                 </p>
                 <p>
@@ -227,18 +235,51 @@
                     Maximizing the margin is an optimization problem that is equivalent to minimizing the norm of the
                     weight
                     vector:
-                    $$minimize_{w,b} \space \frac{1} {2} ||w||^2 $$
-                    subject to $$y_{i}(w * x_{i} + b)-1 \geq 0, \space i=1,...,m \label{ref3}$$
-                    The convex quadratic optimization problem from (\ref{ref3}) can be solved by lagrange multipliers:
-                    $$\mathcal{L}(w,b,\alpha) = \mathcal{f}(w)-\sum_{i=1}^{m}\alpha_{i}g_{i}(w,b)$$
-                    $$\mathcal{L}(w,b,\alpha) = \frac{1}{2}||w||^{2}-\sum_{i=1}^{m}\alpha_{i}[y_{i}(w*x_{i}+b)-1]$$
-                    $$\min_{w,b} \space \max_{a} \mathcal{L}(w,b,\alpha)$$
+                    $$
+                    \begin{equation}
+                    minimize_{w,b} \space \frac{1} {2} ||w||^2 
+                    \end{equation}
+                    $$
                     subject to
-                    $$\alpha_{i}\geq0, \space i=1,...,m \label{ref4}$$
+                    $$
+                    \begin{equation}
+                    y_{i}(w * x_{i} + b)-1 \geq 0, \space i=1,...,m \label{ref3}
+                    \end{equation}
+                    $$
+                    The convex quadratic optimization problem from (\ref{ref3}) can be solved by lagrange multipliers:
+                    $$
+                    \begin{equation}
+                    \mathcal{L}(w,b,\alpha) = \mathcal{f}(w)-\sum_{i=1}^{m}\alpha_{i}g_{i}(w,b)
+                    \end{equation}
+                    $$
+                    $$
+                    \begin{equation}
+                    \mathcal{L}(w,b,\alpha) = \frac{1}{2}||w||^{2}-\sum_{i=1}^{m}\alpha_{i}[y_{i}(w*x_{i}+b)-1]
+                    \end{equation}
+                    $$
+                    $$
+                    \begin{equation}
+                    \min_{w,b} \space \max_{a} \mathcal{L}(w,b,\alpha)
+                    \end{equation}
+                    $$
+                    subject to
+                    $$
+                    \begin{equation}
+                    \alpha_{i}\geq0, \space i=1,...,m \label{ref4}
+                    \end{equation}
+                    $$
                     The problem from (\ref{ref4}) can then be rewritten in dual form and becomes a Wolfe Dual Problem.
                     In this way the parameters $w$ and $b$ can be found:
-                    $$w=\sum_{i=1}^{m}\alpha_{i}y_{i}x_{i} \label{ref5}$$
-                    $$b=y_{i}-w*x_{i} \label{ref6}$$
+                    $$
+                    \begin{equation}
+                    w=\sum_{i=1}^{m}\alpha_{i}y_{i}x_{i} \label{ref5}
+                    \end{equation}
+                    $$
+                    $$
+                    \begin{equation}
+                    b=y_{i}-w*x_{i} \label{ref6}
+                    \end{equation}
+                    $$
                 </p>
                 <p>
                     Because (\ref{ref4}) contains inequality constraints, the solution must fulfill certain conditions,
@@ -247,7 +288,11 @@
                     These conditions are: stationarity-, primal feasibility-, dual feasibility- and complementary
                     slackness
                     condition.
-                    $$\alpha_{i}[y_{i}(w*x_{i}+b)-1]=0 \space for \space for \space all \space i=1,...,m \label{ref7}$$
+                    $$
+                    \begin{equation}
+                    \alpha_{i}[y_{i}(w*x_{i}+b)-1]=0 \space for \space for \space all \space i=1,...,m \label{ref7}
+                    \end{equation}
+                    $$
                     The fourth one, the complementary slackness condition from (\ref{ref7}), says either $\alpha_{i}$ or
                     the
                     original condition should be zero.
@@ -261,10 +306,22 @@
                     The original optimization problem from (\ref{ref3}) has been changed to (\label{ref8}):
                     the slack variable $\zeta$ and the hyperparameter $C$ have been added.
                     Regarding to this, the outliers can now be on the "wrong side" but a hyperplane can still be found.
-                    $$minimize_w,b,\zeta \space \frac{1}{2}||w||^{2} + C \sum_{i=1}^{m} \zeta_{i} \label{ref8}$$
+                    $$
+                    \begin{equation}
+                    minimize_w,b,\zeta \space \frac{1}{2}||w||^{2} + C \sum_{i=1}^{m} \zeta_{i} \label{ref8}
+                    \end{equation}
+                    $$
                     subject to
-                    $$y_{i}(w*x_{i}+b) \geq 1-\zeta_{i}$$
-                    $$\zeta_{i} \geq 0 \space for \space any \space i=1,...,m $$
+                    $$
+                    \begin{equation}
+                    y_{i}(w*x_{i}+b) \geq 1-\zeta_{i}
+                    \end{equation}
+                    $$
+                    $$
+                    \begin{equation}
+                    \zeta_{i} \geq 0 \space for \space any \space i=1,...,m
+                    \end{equation}
+                    $$
                     The hyperparameter $C$ can then be used to control how the SVM should deal with outliers.
                 </p>
             </div>
