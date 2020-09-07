@@ -327,7 +327,37 @@
             </div>
             <div class="explanation" id="exp2">
                 <h2>Kernels</h2>
-                <p>...</p>
+                <p>
+                  Normally, the linear kernel (scalar product)
+                  is used to calculate the distance of two points $\mathbf a, \mathbf b$:
+                  $$
+                  \begin{equation}
+                    K_{\mathrm{linear}}(\mathbf a, \mathbf b) = \mathbf a \cdot \mathbf b = \sum_i a_i \cdot b_i.
+                  \end{equation}
+                  $$
+                </p>
+                <p>
+                  Alternatively, a polynomial kernel can be used to penalize large distances:
+                  $$
+                  \begin{equation}
+                  K_{\mathrm{polynomial}}(\mathbf a, \mathbf b) = (\mathbf a \cdot \mathbf b + c)^d,
+                  \end{equation}
+                  $$
+                  where $c=0, d=2$ are the pre-set constants in our implementation.
+                </p>
+                <p>
+                  Another kernel is a radial basis function (RBF) which uses an exponential function
+                  to penalize large distances:
+                  $$
+                  \begin{equation}
+                  K_{\mathrm{RBF}}(\mathbf a, \mathbf b) = \exp\left( - \gamma \cdot \sqrt[d]{ \sum_i (a_i - b_i)^d } \right),
+                  \end{equation}
+                  $$
+                  where our implementation chooses $d=2$.
+                  Note that the inner term of this function
+                  describes the mean squared distance between the vectors $\mathbf a, \mathbf b$.
+                  Of course, other RBF formulations are possible as well.
+                </p>
             </div>
             <div class="explanation" id="exp3">
                 <h2>Parameters</h2>
