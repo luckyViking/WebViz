@@ -39,14 +39,14 @@ Intuitively, the $\epsilon$ parameter defines how far the influence of a single 
 
 \begin{figure}%
 	\centering
-	\includegraphics[height=8cm]{{../images/IrisLin001_1.png}}
+	\includegraphics[height=8cm]{IrisLin001_1}
 	\caption{Small Epsilon (0.001) in combination with small C shifts the decision boundary evenly between the two classes that are to be separated. The support vectors are displayed as crosses. Based on these vectors, the boundary is drawn.}
 	\label{fig:example}%
 \end{figure}
 
 \begin{figure}%
 	\centering
-	\includegraphics[height=8cm]{{../images/IrisLin51.png}}
+	\includegraphics[height=8cm]{IrisLin51}
 	\caption{Large Epsilon (0.5) shifts the decision boundary too far into the red cluster. This is due to the parameter Epsilon regulating how much influence each datapoint is assigned to, to move the decision boundary. In this case, the choice of parameters is not optimal, nevertheless most datapoints from the red cluster are classified correctly.}%
 	\label{fig:example}%
 \end{figure}
@@ -62,14 +62,14 @@ The C parameter trades off correct classification of training examples against m
 
 \begin{figure}[h!]%
 	\centering
-	\includegraphics[height=8cm]{{../images/SalmonLin75_1.png}}
+	\includegraphics[height=8cm]{SalmonLin75_1}
 	\caption{When picking a small value (~1) for the C parameter in combination with a large Epsilon (0.75) the decision boundary is placed correctly balanced between the two classes.}
 	\label{fig:example}%
 \end{figure}
 
 \begin{figure}[h!]%
 	\centering
-	\includegraphics[height=8cm]{{../images/SalmonLin75_10k.png}}
+	\includegraphics[height=8cm]{SalmonLin75_10k}
 	\caption{With an increasingly large C parameter (C=10.000) the decision boundary may move too much towards one of the class clusters. In this example, the prediction of the orange datapoints is still correct, yet it is clearly visible that some datapoints are dangerously close to the decision boundary.}%
 	\label{fig:example}%
 \end{figure}
