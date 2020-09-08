@@ -21,6 +21,7 @@
 \usepackage[english]{babel}
 \usepackage{booktabs}
 
+\graphicspath{{./images/Beamer/}}
 
 \usetheme[fb2]{FrankfurtUniversity}
 %\usetheme[fb2,noslogan]{FrankfurtUniversity}
@@ -37,17 +38,84 @@
 
 \begin{document}
 
+\begin{frame}
+	\frametitle{Agenda}
+	\tableofcontents%[hideallsubsections]
+\end{frame}
 
 \begin{frame}
 \titlepage
 \end{frame}
 %\addtocounter{framenumber}{-1}
 
+\begin{frame}
+	\frametitle{SVM Visualization}
+	\framesubtitle{plotly.js vs. d3.js}
+	
+	\begin{itemize}
+		\item \textbf{\textit{d3.js}}
+		\begin{itemize}
+			\item d3.js offers great individuality for all kinds of data visualizations and user interfaces
+			\item surplus of possibilities requires intensive incorporation
+			\item simple visualization like \textit{line, scatter} or \textit{contour} plots tend to be more difficult
+		\end{itemize}
+		\item \textbf{\textit{plotly.js}}
+		\begin{itemize}
+			\item previous knowledge through R and Python
+			\item specialized on visualizations of data, models and statistics
+			\item standardized pipelines for common types of plots
+			\item highly customizable through simple commands
+
+		\end{itemize}
+	\end{itemize}
+\end{frame}
 
 \begin{frame}
-   \frametitle{Agenda}
-   \tableofcontents%[hideallsubsections]
+	\frametitle{SVM Visualization}
+	\framesubtitle{Major Components}
+	\begin{itemize}
+		\item Contour Plot
+		\begin{itemize}
+			\item drawing of the decision boundaries 
+			\item two vectors are filled with values between $\min()$ and $\max()$ of  both features
+			\item for drawing the boundaries, the SVM predicts all combinations of these two features $\rightarrow$ array of predictions $\textbf{Z}$
+			\item through $\textbf{Z}$ and a smoothing function, such as \textit{Sigmoid}, a heatmap can be drawn that visualizes the decision boundaries of the SVM
+		\end{itemize}
+
+		\item Scatter Plot
+		\begin{itemize}
+			\item Support Vectors
+			\item Data Points
+		\end{itemize}
+	\end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{The Z-Array}
+	\begin{figure}
+		\centering
+		\includegraphics[width=11cm]{Z-Array.png}
+	\end{figure}
+	\begin{itemize}
+		\item Decision boundary may be drawn between positive and negative values
+		\item Using \textit{sign} or \textit{Sigmoid} the decision boundary can be displayed in a contour plot as a clear and smoothed line
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Final Plot}
+	\begin{figure}
+		\centering
+		\includegraphics[width=11cm]{FinalPlot.png}
+	\end{figure}
+	\begin{itemize}
+		\item Final result of the combination of scatter and contour plots
+		\item Support vectors are shown as X's
+		\item Class memberships are displayed through differing colors
+	\end{itemize}
+\end{frame}
+
+
 
 
 
