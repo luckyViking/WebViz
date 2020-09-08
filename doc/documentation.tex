@@ -32,7 +32,57 @@ to explain how Support Vector Machines (SVM) work.
 
 \section{Support Vector Machines}
 
-\subsection*{SVM Parameters}
+\section{Used Technologies}
+
+\subsection{Webtechnologies}
+
+\subsection{Visualization}
+
+%\subsubsection*{Used Tools and Libraries}
+Starting the project, the plan was to do the visualization using d3.js, which is one of the most used visualization libraries for Javascript with over 50k related repositories on Github. It enhances the user to visualize almost any given dataset by providing the ability to assemble custom tailored plots and visualizations using many different modules that can be combined to produce individual and interactive visualizations. Unfortunately, as it often tends to be the case for libraries that offer a lot of individuality, producing contour or line plots using d3.js requires quite some effort to get started with, as the amount of different possibilities is very large. So as a matter of fact, that the project was set to 6 months, the decision was made to make use of another data visualization library, Plotly, that offers many standard features that work out of the box and can be combined with different data.
+Plotly is at least as well known as d3.js, being a widely used plotting library, that is available for different programming languages such as Python, R, Javascript. Plotly.js offers many possibilities to visualize different kinds of plots which can be integrated into websites via Javascript, CSS and HTML. Comparing d3.js with plotly.js the team came to the conclusion, that d3.js offers much more freedom to produce very custom visualizations, while plotly.js offers the most common types of plots for data visualization. Therefore, we decided to go with usability rather than adaptability.
+Furthermore, other libraries such as jQuery, Ajax, Bootstrap and Mathjax enable the full functionality of Javascript powered Websites.
+
+
+To visualize the behavior of an SVM on different kernels, datasets and parameters several plotting features from Plotly were combined into a single plot. 
+Firstly, the data points contained in the available datasets have to be visualized using a scatter plot, which plots the data points in accordance to their feature values in a 2D coordinate system, where x- and y-axis correspond to two features of the data set. 
+For example plotting the Iris dataset, the x-axis could correspond to Sepa length and the y-axis to Sepal width. Subsequently, the data points can be drawn into the coordinate system. Simultaneously, the different data points may be shown in different colors or shapes according to their label which is also the desired output of the SVM.
+
+For visualizing the decision boundary of the SVM a Contour plot was used. The corresponding contour results from the SVM predicting the labels for different data points of the z-array. The z-array yields the entire co-domain of the two features from the training set and is arranged in an array. The x-axis is ranging from Min(Feature 1) to Max(Feature 1) and the y-axis from Min(Feature 2) to Max(Feature 2). All the resulting data points in the z-array are passed to the pre-trained SVM for predicting their label. The output of the SVM is another array with the same shape as the z-array. The resulting array is further smoothed using the Sigmoid function, which maps all values to between 0 and 1, where 0 corresponds to one class and 1 to the other. 
+At this point, a two leveled contour plot can be used with the resulting z-array  to visualize the decision boundary of the SVM. The contour plot is further expanded with a heatmap, that visualizes the decision margins and the two classes in different colors.
+Another Scatterplot is added to also display the support vectors, as their positions change when the parameters of the SVM are changed, this is an important point to explain the behavior of an SVM to students.
+
+
+\subsection{Python}
+
+\section{User Manual}
+
+\subsection{Installation}
+
+The visualizations are implemented in client-side JavaScript,
+so implementation is simple:
+the project files just have to be served via an HTTP server
+and opened in any modern browser.
+There are no server-side programs that have to be installed.
+
+For local use, Python's built-in web server is a convenient choice:
+
+\begin{enumerate}
+	\item start the server with \verb|python3 -m http.server -b localhost 4321|
+	\item open the start page in the browser: \url{http://localhost:4321/views/}
+\end{enumerate}
+
+While the user-accessible pages are under \verb|/views/|,
+necessary resources are served under
+\verb|/data/|, \verb|/css/|, and \verb|/js/|.
+
+A live version of the project can also be accessed at
+\url{https://luckyviking.github.io/WebViz/views/}.
+
+\subsection{Choosing Datasets}
+
+
+\subsection{Changing SVM Parameters}
 
 \subsubsection*{Epsilon $\epsilon$}
 Intuitively, the $\epsilon$ parameter defines how far the influence of a single training example reaches, with low values meaning ‘far’ and high values meaning ‘close’. The $\epsilon$ parameters can be seen as the inverse of the radius of influence of samples selected by the model as support vectors. When $\epsilon$ is very small, the model is too constrained and cannot capture the complexity or 'shape' of the data. The region of influence of any selected support vector would include the whole training set. The resulting model will behave similarly to a linear model with a set of hyperplanes that separate the centers of high density of any pair of two classes. 
@@ -78,64 +128,27 @@ The C parameter trades off correct classification of training examples against m
 
 % TODO: provide some mathematical background
 \newpage
-\section{Installation}
 
-The visualizations are implemented in client-side JavaScript,
-so implementation is simple:
-the project files just have to be served via an HTTP server
-and opened in any modern browser.
-There are no server-side programs that have to be installed.
 
-For local use, Python's built-in web server is a convenient choice:
+%\section{Implemented Views}
 
-\begin{enumerate}
-\item start the server with \verb|python3 -m http.server -b localhost 4321|
-\item open the start page in the browser: \url{http://localhost:4321/views/}
-\end{enumerate}
+%The primary tool is provided under \verb|/views/plotly.html|.
+%Other tools were used for debugging or tried out alternative approaches:
 
-While the user-accessible pages are under \verb|/views/|,
-necessary resources are served under
-\verb|/data/|, \verb|/css/|, and \verb|/js/|.
-
-A live version of the project can also be accessed at
-\url{https://luckyviking.github.io/WebViz/views/}.
+%\begin{itemize}
+%\item \verb|/views/scatterplot.html|
+%\item \verb|/views/different_datasets.html|
+%\item \verb|/views/iris_shapes.html|
+%\item \verb|/views/gui.html|
+%\item \verb|/views/plotly.html|
+%\end{itemize}
 
 
 
-\section{Implemented Views}
-
-The primary tool is provided under \verb|/views/plotly.html|.
-Other tools were used for debugging or tried out alternative approaches:
-
-\begin{itemize}
-\item \verb|/views/scatterplot.html|
-\item \verb|/views/different_datasets.html|
-\item \verb|/views/iris_shapes.html|
-\item \verb|/views/gui.html|
-\item \verb|/views/plotly.html|
-\end{itemize}
-
-\subsection*{Visualization}
-
-%\subsubsection*{Used Tools and Libraries}
-Starting the project, the plan was to do the visualization using d3.js, which is one of the most used visualization libraries for Javascript with over 50k related repositories on Github. It enhances the user to visualize almost any given dataset by providing the ability to assemble custom tailored plots and visualizations using many different modules that can be combined to produce individual and interactive visualizations. Unfortunately, as it often tends to be the case for libraries that offer a lot of individuality, producing contour or line plots using d3.js requires quite some effort to get started with, as the amount of different possibilities is very large. So as a matter of fact, that the project was set to 6 months, the decision was made to make use of another data visualization library, Plotly, that offers many standard features that work out of the box and can be combined with different data.
-Plotly is at least as well known as d3.js, being a widely used plotting library, that is available for different programming languages such as Python, R, Javascript. Plotly.js offers many possibilities to visualize different kinds of plots which can be integrated into websites via Javascript, CSS and HTML. Comparing d3.js with plotly.js the team came to the conclusion, that d3.js offers much more freedom to produce very custom visualizations, while plotly.js offers the most common types of plots for data visualization. Therefore, we decided to go with usability rather than adaptability.
-Furthermore, other libraries such as jQuery, Ajax, Bootstrap and Mathjax enable the full functionality of Javascript powered Websites.
 
 
-To visualize the behavior of an SVM on different kernels, datasets and parameters several plotting features from Plotly were combined into a single plot. 
-Firstly, the data points contained in the available datasets have to be visualized using a scatter plot, which plots the data points in accordance to their feature values in a 2D coordinate system, where x- and y-axis correspond to two features of the data set. 
-For example plotting the Iris dataset, the x-axis could correspond to Sepa length and the y-axis to Sepal width. Subsequently, the data points can be drawn into the coordinate system. Simultaneously, the different data points may be shown in different colors or shapes according to their label which is also the desired output of the SVM.
+\section{Solved Challenges}
 
-For visualizing the decision boundary of the SVM a Contour plot was used. The corresponding contour results from the SVM predicting the labels for different data points of the z-array. The z-array yields the entire co-domain of the two features from the training set and is arranged in an array. The x-axis is ranging from Min(Feature 1) to Max(Feature 1) and the y-axis from Min(Feature 2) to Max(Feature 2). All the resulting data points in the z-array are passed to the pre-trained SVM for predicting their label. The output of the SVM is another array with the same shape as the z-array. The resulting array is further smoothed using the Sigmoid function, which maps all values to between 0 and 1, where 0 corresponds to one class and 1 to the other. 
-At this point, a two leveled contour plot can be used with the resulting z-array  to visualize the decision boundary of the SVM. The contour plot is further expanded with a heatmap, that visualizes the decision margins and the two classes in different colors.
-Another Scatterplot is added to also display the support vectors, as their positions change when the parameters of the SVM are changed, this is an important point to explain the behavior of an SVM to students.
-
-
-\section{User Manual}
-
-\section{Challenges}
-
-\section{Conclusion}
+\section{Conclusion \& Future Work}
 
 \end{document}
