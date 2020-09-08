@@ -31,6 +31,31 @@ We therefore developed an interactive, web-based tool
 to explain how Support Vector Machines (SVM) work.
 
 \section{Support Vector Machines}
+The SVM is a supervised learning model. In this approach, we are given a set of input vectors ($x_n$) paired with corresponding target values ($t_n$). 
+The goal is to “learn” a model made out of these training set to make correct predictions of a target value t for newly presented input data x. 
+To “learn” a model means finding a hyperplane (= the set of points satisfying the hyperplane equation: $w*x+b = 0$, where w is the weight vector, $x$ is the input vector and $b$ is the bias).
+
+The hyperplane separates our training data into two classes which means that data points from one class are above the hyperplane and data points from the other class are below the hyperplane. 
+There are several possible hyperplanes. The question, therefore, is which hyperplane best separates our data? The best hyperplane is the one that maximizes the margin. The margin is the shortest distance from the hyperplane to their closest points. 
+So for describing the hyperplane mathematically it is not important to consider all training vectors but only those that are closest to the hyperplane. These vectors are called support vectors. 
+
+The goal is to determine the parameters w and b of the optimal hyperplane, the hyperplane with the largest margin. In other words, we need to maximize the margin and maximizing the margin is an optimization problem that is equivalent to minimizing the norm of the weight vector $||w||$. 
+
+In general, the norm of a vector $x = (x_1,...,x_N)$ is computed by using the euclidean norm formula: 
+
+\[||w||=\sqrt{(x_{1}^{2}+...+x_{N}^{2})}\]
+
+Expressed mathematically, we have to solve the following optimization problem: 
+\[min \frac{1}{2}||w||^{2} \]
+
+This is a constrained optimization problem and such problems were solved by efficient methods, like for example: the Lagrangian multiplier method.
+
+EQUATION 3!!!
+
+Vapnik and Cortes modified the original SVM to the Soft Margin SVM which means, in the classification case, outliers are allowed. The original optimization problem from (Form. 2) has been changed to (Form. 4): a slack variable and a hyper parameter C have been added. Regarding to this, outliers can now be on the “wrong side” but a hyperplane can still be found. The hyper parameter C can then be used to control how the SVM should deal with outliers. 
+
+EQUATION 4 !!!
+
 
 \section{Used Technologies}
 
@@ -39,9 +64,9 @@ to explain how Support Vector Machines (SVM) work.
 \subsection{Visualization}
 
 %\subsubsection*{Used Tools and Libraries}
-Starting the project, the plan was to do the visualization using d3.js, which is one of the most used visualization libraries for Javascript with over 50k related repositories on Github. It enhances the user to visualize almost any given dataset by providing the ability to assemble custom tailored plots and visualizations using many different modules that can be combined to produce individual and interactive visualizations. Unfortunately, as it often tends to be the case for libraries that offer a lot of individuality, producing contour or line plots using d3.js requires quite some effort to get started with, as the amount of different possibilities is very large. So as a matter of fact, that the project was set to 6 months, the decision was made to make use of another data visualization library, Plotly, that offers many standard features that work out of the box and can be combined with different data.
-Plotly is at least as well known as d3.js, being a widely used plotting library, that is available for different programming languages such as Python, R, Javascript. Plotly.js offers many possibilities to visualize different kinds of plots which can be integrated into websites via Javascript, CSS and HTML. Comparing d3.js with plotly.js the team came to the conclusion, that d3.js offers much more freedom to produce very custom visualizations, while plotly.js offers the most common types of plots for data visualization. Therefore, we decided to go with usability rather than adaptability.
-Furthermore, other libraries such as jQuery, Ajax, Bootstrap and Mathjax enable the full functionality of Javascript powered Websites.
+Starting the project, the plan was to do the visualization using d3.js, which is one of the most used visualization libraries for JavaScript with over 50k related repositories on Github. It enhances the user to visualize almost any given data set by providing the ability to assemble custom tailored plots and visualizations using many different modules that can be combined to produce individual and interactive visualizations. Unfortunately, as it often tends to be the case for libraries that offer a lot of individuality, producing contour or line plots using d3.js requires quite some effort to get started with, as the amount of different possibilities is very large. So as a matter of fact, that the project was set to 6 months, the decision was made to make use of another data visualization library, Plotly, that offers many standard features that work out of the box and can be combined with different data.
+Plotly is at least as well known as d3.js, being a widely used plotting library, that is available for different programming languages such as Python, R, JavaScript. Plotly.js offers many possibilities to visualize different kinds of plots which can be integrated into websites via Javascript, CSS and HTML. Comparing d3.js with plotly.js the team came to the conclusion, that d3.js offers much more freedom to produce very custom visualizations, while Plotly.js offers the most common types of plots for data visualization. Therefore, we decided to go with usability rather than adaptability.
+Furthermore, other libraries such as jQuery, Ajax, Bootstrap and Mathjax enable the full functionality of JavaScript powered Websites.
 
 
 To visualize the behavior of an SVM on different kernels, datasets and parameters several plotting features from Plotly were combined into a single plot. 
@@ -149,6 +174,34 @@ The C parameter trades off correct classification of training examples against m
 
 \section{Solved Challenges}
 
+During the implementation there were some challenges to overcome:
+
+\begin{itemize}
+	\item Which technology to use (Plotly over D3.js)
+	\item Which Datasets to use (Iris, self generated ones)
+	\item Timeline (SVM Steps) 
+	\item Smoothing function
+	\item Margins of the Hyperplane
+	\item Polynomial / RBF kernel 
+\end{itemize}
+
+
+
+
 \section{Conclusion \& Future Work}
+In conclusion we can say that our SVM tool is a good way to illustrate how the algorithm works. 
+
+The SVM is very common these days and is used as a standard tool for text categorization, image recognition, hand-written digit recognition and bioinformatics. 
+
+During the implementation there were some challenges, but we solved them well as a team.
+
+If we had more time, we could still work on ….. 
+
+If the project is further developed, these are definitely good starting points. 
+
+All in all, we have developed a well-functioning interactive tool to describe the SVM's approach. 
+
+\section{References}
+
 
 \end{document}
