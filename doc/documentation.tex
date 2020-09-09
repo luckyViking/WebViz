@@ -26,6 +26,7 @@
 
 \section{Introduction}
 As part of the digitalization project “Webtools for teaching” at Frankfurt University of Applied Sciences (FRA UAS), students of the general computer science Masters’ program created a website about one of the most common techniques used for regression- and classification problems, the Support Vector Machine (SVM). 
+The SVM is very common these days and is used as a standard tool for text categorization, image recognition, hand-written digit recognition and bioinformatics.
 
 In order to teach algorithms, interactive visualizations can be a powerful tool.
 We therefore developed an interactive, web-based tool
@@ -282,17 +283,32 @@ During the implementation there were some challenges to overcome:
 
 
 \section{Conclusion \& Future Work}
-In conclusion we can say that our SVM tool is a good way to illustrate how the algorithm works. 
 
-The SVM is very common these days and is used as a standard tool for text categorization, image recognition, hand-written digit recognition and bioinformatics. 
+We created a fully functional SVM visualization tool
+that can help build understanding of how an SVM works.
+In creating these tools, we overcame or circumvented arising implementation challenges,
+such as by selecting appropriate visualization frameworks.
 
-During the implementation there were some challenges, but we solved them well as a team.
+However, the visualization software is far from complete,
+and ample opportunity for future work remains.
 
-If we had more time, we could still work on ….. 
+In particular, the current implementation runs the SVM until convergence
+and then visualizes the final classification.
+In the future, this could be extended
+to step through the SVM one iteration at a time
+in order to watch the SVM's separating boundary converge to the optimal boundary.
+The SVM implementation has already been designed with the necessary hooks,
+but the user interface would require additional controls for stepping.
 
-If the project is further developed, these are definitely good starting points. 
+Another possible extension involves the margins of the separating boundary.
+This boundary is difficult to draw in the general case since it has no analytical form,
+which is also why the user interface approximates it via a two-level contour plot.
+But the boundary and with it the margins could be calculated and drawn
+for the case of the linear kernel.
 
-All in all, we have developed a well-functioning interactive tool to describe the SVM's approach. 
+All in all, we have developed a well-functioning interactive tool to describe the SVM technique.
+We hope that it helps people learn about SVMs,
+and that it can possibly serve as the basis for future work on SVM visualization.
 
 \section{References}
 
