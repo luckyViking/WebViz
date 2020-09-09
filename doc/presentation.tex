@@ -38,6 +38,30 @@
 
 \begin{document}
 
+% Notes:
+%
+% * Introduction: why this topic is so important, why web visualzations are
+%   important (Corona!)
+% * SVM at high level (1 SLIDE !!!)
+% * split up SVM visualization part
+% * used technologies (1 slide)
+% * implementation of SVM in JS (1 slide)
+% * live demo
+%   * available controls & features (see user manual in doc)
+%   * step through explanation tabs
+% * Challenges
+%   * 1 slide: d3 vs plotly
+%   * 1 slide: svm implementation, testing, debugging
+%   * 1 slide: generating data sets with Python
+%   * 1 slide: plotting challenges (sigmoid smoothing, countours vs drawing a line)
+% * Future work, conclusion (1 slide)
+% * Questions, references (1 slide)
+
+% Screenshots:
+% * diagram with/without smoothing (edit plotly_gui.js to use signum instead of sigmoid)
+% * used technologies: logos?
+% * generating data sets: plots of salmon vs iris
+
 \begin{frame}
 	\titlepage
 \end{frame}
@@ -51,111 +75,166 @@
 \section{Introduction}
 \begin{frame}
 	\frametitle{Introduction}
-	
+
+  \begin{itemize}
+  \item SVMs important machine learning algorithm
+  \item support web-based teaching via interactive visualizations
+  \item distance learning more important due to Corona
+  \end{itemize}
+  % TODO: stock image of home office like something?
 \end{frame}
 
 \section{Support Vector Machines}
 \begin{frame}
-	\frametitle{SVM Visualization}
-	\framesubtitle{plotly.js vs. d3.js}
+	\frametitle{SVM}
+
+  \begin{itemize}
+  \item supervised learning
+  \item commonly used for classification, also regression
+  \item learning means finding a separating boundary (hyperplane)
+  \item Vapnik \& Chervonenkins 1963
+  \end{itemize}
+\end{frame}
+
+% 	\framesubtitle{plotly.js vs. d3.js}
 	
-	\begin{itemize}
-		\item \textbf{\textit{d3.js}}
-		\begin{itemize}
-			\item d3.js offers great individuality for all kinds of data visualizations and user interfaces
-			\item surplus of possibilities requires intensive incorporation
-			\item simple visualization like \textit{line, scatter} or \textit{contour} plots tend to be more difficult
-		\end{itemize}
-		\item \textbf{\textit{plotly.js}}
-		\begin{itemize}
-			\item previous knowledge through R and Python
-			\item specialized on visualizations of data, models and statistics
-			\item standardized pipelines for common types of plots
-			\item highly customizable through simple commands
+% 	\begin{itemize}
+% 		\item \textbf{\textit{d3.js}}
+% 		\begin{itemize}
+% 			\item d3.js offers great individuality for all kinds of data visualizations and user interfaces
+% 			\item surplus of possibilities requires intensive incorporation
+% 			\item simple visualization like \textit{line, scatter} or \textit{contour} plots tend to be more difficult
+% 		\end{itemize}
+% 		\item \textbf{\textit{plotly.js}}
+% 		\begin{itemize}
+% 			\item previous knowledge through R and Python
+% 			\item specialized on visualizations of data, models and statistics
+% 			\item standardized pipelines for common types of plots
+% 			\item highly customizable through simple commands
 
-		\end{itemize}
-	\end{itemize}
-\end{frame}
+% 		\end{itemize}
+% 	\end{itemize}
+% \end{frame}
 
-\begin{frame}
-	\frametitle{SVM Visualization}
-	\framesubtitle{Major Components}
-	\begin{itemize}
-		\item Contour Plot
-		\begin{itemize}
-			\item drawing of the decision boundaries 
-			\item two vectors are filled with values between $\min()$ and $\max()$ of  both features
-			\item for drawing the boundaries, the SVM predicts all combinations of these two features $\rightarrow$ array of predictions $\textbf{Z}$
-			\item through $\textbf{Z}$ and a smoothing function, such as \textit{Sigmoid}, a heatmap can be drawn that visualizes the decision boundaries of the SVM
-		\end{itemize}
+% \begin{frame}
+% 	\frametitle{SVM Visualization}
+% 	\framesubtitle{Major Components}
+% 	\begin{itemize}
+% 		\item Contour Plot
+% 		\begin{itemize}
+% 			\item drawing of the decision boundaries 
+% 			\item two vectors are filled with values between $\min()$ and $\max()$ of  both features
+% 			\item for drawing the boundaries, the SVM predicts all combinations of these two features $\rightarrow$ array of predictions $\textbf{Z}$
+% 			\item through $\textbf{Z}$ and a smoothing function, such as \textit{Sigmoid}, a heatmap can be drawn that visualizes the decision boundaries of the SVM
+% 		\end{itemize}
 
-		\item Scatter Plot
-		\begin{itemize}
-			\item Support Vectors
-			\item Data Points
-		\end{itemize}
-	\end{itemize}
-\end{frame}
+% 		\item Scatter Plot
+% 		\begin{itemize}
+% 			\item Support Vectors
+% 			\item Data Points
+% 		\end{itemize}
+% 	\end{itemize}
+% \end{frame}
 
-\begin{frame}
-	\frametitle{The Z-Array}
-	\begin{figure}
-		\centering
-		\includegraphics[width=11cm]{Z-Array.png}
-	\end{figure}
-	\begin{itemize}
-		\item Decision boundary may be drawn between positive and negative values
-		\item Using \textit{sign} or \textit{Sigmoid} the decision boundary can be displayed in a contour plot as a clear and smoothed line
-	\end{itemize}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{The Z-Array}
+% 	\begin{figure}
+% 		\centering
+% 		\includegraphics[width=11cm]{Z-Array.png}
+% 	\end{figure}
+% 	\begin{itemize}
+% 		\item Decision boundary may be drawn between positive and negative values
+% 		\item Using \textit{sign} or \textit{Sigmoid} the decision boundary can be displayed in a contour plot as a clear and smoothed line
+% 	\end{itemize}
+% \end{frame}
 
-\begin{frame}
-	\frametitle{Final Plot}
-	\begin{figure}
-		\centering
-		\includegraphics[width=11cm]{FinalPlot.png}
-	\end{figure}
-	\begin{itemize}
-		\item Final result of the combination of scatter and contour plots
-		\item Support vectors are shown as X's
-		\item Class memberships are displayed through differing colors
-	\end{itemize}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Final Plot}
+% 	\begin{figure}
+% 		\centering
+% 		\includegraphics[width=11cm]{FinalPlot.png}
+% 	\end{figure}
+% 	\begin{itemize}
+% 		\item Final result of the combination of scatter and contour plots
+% 		\item Support vectors are shown as X's
+% 		\item Class memberships are displayed through differing colors
+% 	\end{itemize}
+% \end{frame}
 
 \section{Used Technologies}
 \begin{frame}
 	\frametitle{Used Technologies}
-	
+	% TODO: logos of technologies
+  % TODO: logo: HTML5
+  % TODO: logo: css
+  % TODO: logo: bootstrap
+  % TODO: logo: jquery
+  % TODO: logo: mathjax
+  % TODO: logo: plotly
 \end{frame}
 
-\section{User Manual}
-
-\subsection{Installation}
-\begin{frame}
-	\frametitle{User Manual}
-	\framesubtitle{Installation}
-	
-\end{frame}
-
-\subsection{Usage}
-\begin{frame}
-	\frametitle{User Manual}
-	\framesubtitle{Usage}
-	
-\end{frame}
-
-\subsection{Live Demo}
-\begin{frame}
-	\frametitle{User Manual}
+\section{Live Demo}
+\begin{frame}[plain]
 	\begin{center}
-		\textbf{<<Live Demo>>}		
-	\end{center}	
+		\textbf{Live Demo}
+	\end{center}
 \end{frame}
 
-\section{Solved Challanges}
+\section{Solved Challenges}
+% * 1 slide: d3 vs plotly
+% * 1 slide: svm implementation, testing, debugging
+% * 1 slide: generating data sets with Python
+% * 1 slide: plotting challenges (sigmoid smoothing, countours vs drawing a line)
+
 \begin{frame}
-	\frametitle{Solved Challanges}
-	
+	\frametitle{Solved Challenges: D3 vs Plotly}
+
+  \begin{itemize}
+  \item d3 is very flexible
+  \item d3 is very low-level, SVG-oriented
+  \item Plotly has standard pipelines for common plot types
+  \item Plotly is still very customizable (builds upon d3)
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Solved Challenges: SVM Implementation}
+  Implemented API:
+  \begin{itemize}
+  \item \verb|svm = new SVM({ X, y, C, tol, kernel })|
+    \begin{itemize}
+    \item \verb|kernel| can be any function \verb|(x, y) -> float|
+    \end{itemize}
+  \item \verb|classification = svm.output(point)|
+  \item \verb|svm.main_routine()|
+  \item \verb|svm.main_routine_step({examine_all})|
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solved Challenges: Data Sets}
+  % TODO: plots with iris, salmon
+
+  implemented Python script to generate new data sets
+\end{frame}
+
+\begin{frame}
+	\frametitle{Solved Challenges: Plotting}
+  % * 1 slide: plotting challenges (sigmoid smoothing, countours vs drawing a line)
+  % TODO: picture of plot without smoothing
+  \begin{itemize}
+  \item smoothing
+    \begin{itemize}
+    \item use sigmoid function instead of sign
+    \end{itemize}
+  \item drawing the separating boundary
+    \begin{itemize}
+    \item drawing a line doesn't work for all kernels
+    \item calculating line equation is difficult
+    \item simple trick: use a 2-level contour plot
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 
 
@@ -163,9 +242,20 @@
 \begin{frame}
 	\frametitle{Conclusion}
 
+  \begin{itemize}
+  \item built a wonderful SVM visualization
+  \item great teamwork, complementary skills
+  \item future work
+    \begin{itemize}
+    \item step through SVM convergence
+    \item drawing margins around the hyperplane
+    \item more kernel functions
+    \end{itemize}
+  \end{itemize}
+  
 \end{frame}
 
-\begin{frame}
+\begin{frame}[plain]
 	\begin{center}
 		\textbf{Any Questions?}
 	\end{center}
