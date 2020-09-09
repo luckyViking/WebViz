@@ -25,6 +25,7 @@
 \maketitle
 
 \section{Introduction}
+As part of the digitalization project “Webtools for teaching” at Frankfurt University of Applied Sciences (FRA UAS), students of the general computer science Masters’ program created a website about one of the most commen techniques used for regression- and classification problems, the Support Vector Machine (SVM). 
 
 In order to teach algorithms, interactive visualizations can be a powerful tool.
 We therefore developed an interactive, web-based tool
@@ -48,18 +49,23 @@ In general, the norm of a vector $x = (x_1,...,x_N)$ is computed by using the eu
 Expressed mathematically, we have to solve the following optimization problem: 
 \[min \frac{1}{2}||w||^{2} \]
 
-This is a constrained optimization problem and such problems were solved by efficient methods, like for example: the Lagrangian multiplier method.
+This is a constrained optimization problem and such problems were solved by efficient methods, like for example: the Lagrangian multiplier method.\\
 
-EQUATION 3!!!
+EQUATION 3!!!\\
+\\
+Vapnik and Cortes modified the original SVM to the Soft Margin SVM which means, in the classification case, outliers are allowed. The original optimization problem from (Form. 2) has been changed to (Form. 4): a slack variable and a hyper parameter C have been added. Regarding to this, outliers can now be on the “wrong side” but a hyperplane can still be found. The hyper parameter C can then be used to control how the SVM should deal with outliers. \\
 
-Vapnik and Cortes modified the original SVM to the Soft Margin SVM which means, in the classification case, outliers are allowed. The original optimization problem from (Form. 2) has been changed to (Form. 4): a slack variable and a hyper parameter C have been added. Regarding to this, outliers can now be on the “wrong side” but a hyperplane can still be found. The hyper parameter C can then be used to control how the SVM should deal with outliers. 
-
-EQUATION 4 !!!
+EQUATION 4 !!!\\
+\\
 
 
 \section{Used Technologies}
 
 \subsection{Webtechnologies}
+\begin{itemize}
+	\item Bootstrap Framework (Responsive HTML5 / CSS3)  as foundation of the site. 
+	\item jQuery for making the site interactive.
+\end{itemize}
 
 \subsection{Visualization}
 
@@ -79,6 +85,10 @@ Another Scatterplot is added to also display the support vectors, as their posit
 
 
 \subsection{Python}
+
+\begin{itemize}
+	\item Python3 for ground truth programm and random data generator
+\end{itemize}
 
 \section{User Manual}
 
@@ -109,6 +119,14 @@ A live version of the project can also be accessed at
 
 \subsection{Changing SVM Parameters}
 
+\subsubsection*{Kernel}
+Three SVM kernels are implemented for this Project:
+\begin{itemize}
+	\item Linear Kernel \[K(x,x') = x*x'\] where $x$ and $x'$ are two vectors
+	\item Polynomial Kernel \[K(x,x') = (x*x' + c)^d\] where the parameter $c$ represents a constant term and parameter $d$ represents the degree of the kernel.`
+	\item Radial Basis Function \[K(x,x') = e^{\frac{-||x-x'||^{2}}{2\sigma^2} }\]
+\end{itemize}
+
 \subsubsection*{Epsilon $\epsilon$}
 Intuitively, the $\epsilon$ parameter defines how far the influence of a single training example reaches, with low values meaning ‘far’ and high values meaning ‘close’. The $\epsilon$ parameters can be seen as the inverse of the radius of influence of samples selected by the model as support vectors. When $\epsilon$ is very small, the model is too constrained and cannot capture the complexity or 'shape' of the data. The region of influence of any selected support vector would include the whole training set. The resulting model will behave similarly to a linear model with a set of hyperplanes that separate the centers of high density of any pair of two classes. 
 
@@ -135,25 +153,27 @@ The C parameter trades off correct classification of training examples against m
 	\item For \textbf{C = inf}, all the constraints are enforced.
 \end{itemize}
 
-\begin{figure}[h!]%
+\begin{figure}
 	\centering
 	\includegraphics[height=8cm]{SalmonLin75_1}
 	\caption{When picking a small value (~1) for the C parameter in combination with a large Epsilon (0.75) the decision boundary is placed correctly balanced between the two classes.}
 	\label{fig:example}%
 \end{figure}
 
-\begin{figure}[h!]%
+\begin{figure}
 	\centering
 	\includegraphics[height=8cm]{SalmonLin75_10k}
-	\caption{With an increasingly large C parameter (C=10.000) the decision boundary may move too much towards one of the class clusters. In this example, the prediction of the orange datapoints is still correct, yet it is clearly visible that some datapoints are dangerously close to the decision boundary.}%
+	\caption{With an increasingly large C parameter (C=10.000) the decision boundary may move too much towards one of the class clusters. In this example, the prediction of the orange datapoints is still correct, yet it is clearly visible that some data points are dangerously close to the decision boundary.}%
 	\label{fig:example}%
 \end{figure}
 
-
-
 % TODO: provide some mathematical background
-\newpage
 
+\subsubsection*{Plot style}
+\begin{itemize}
+	\item "Lines" showing the data points on a clear coordinate system.
+	\item "Heatmap" show the area of classified data classes.
+\end{itemize}
 
 %\section{Implemented Views}
 
