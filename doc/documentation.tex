@@ -82,6 +82,7 @@ Vapnik and Cortes modified the original SVM to the Soft Margin SVM which means, 
   \label{eq:optslack}
 \end{equation}
 
+\newpage
 \section{Used Technologies}
 
 \subsection{Web Technologies}
@@ -135,6 +136,9 @@ implementation.
 Furthermore, the \verb|dataGenerator.py| script
 was used to create the artificial “Salmon” data set.
 
+%TODO: Insert image of ground truth output.
+
+\newpage
 \section{User Manual}
 
 \subsection{Installation}
@@ -194,14 +198,14 @@ Intuitively, the $\epsilon$ parameter defines how far the influence of a single 
 See Figures \ref{fig:smalleps} and \ref{fig:largeeps}
 for examples with small and large values for $\epsilon$, respectively.
 
-\begin{figure}[p]
+\begin{figure}
 	\centering
 	\includegraphics[height=8cm]{IrisLin001_1}
 	\caption{Small Epsilon (0.001) in combination with small C shifts the decision boundary evenly between the two classes that are to be separated. The support vectors are displayed as crosses. Based on these vectors, the boundary is drawn.}
 	\label{fig:smalleps}%
 \end{figure}
 
-\begin{figure}[p]
+\begin{figure}
 	\centering
 	\includegraphics[height=8cm]{IrisLin51}
 	\caption{Large Epsilon (0.5) shifts the decision boundary too far into the red cluster. This is due to the parameter Epsilon regulating how much influence each datapoint is assigned to, to move the decision boundary. In this case, the choice of parameters is not optimal, nevertheless most datapoints from the red cluster are classified correctly.}%
@@ -221,27 +225,22 @@ Support vectors are displayed as X's.
 	\item For \textbf{$C = \infty$}, all the constraints are enforced.
 \end{itemize}
 
-\begin{figure}[p]
+\begin{figure}
 	\centering
 	\includegraphics[height=8cm]{SalmonLin75_1}
 	\caption{When picking a small value ($\approx 1$) for the C parameter in combination with a large Epsilon (0.75) the decision boundary is placed correctly balanced between the two classes.}
 	\label{fig:smallc}%
 \end{figure}
 
-\begin{figure}[p]
+\begin{figure}
 	\centering
 	\includegraphics[height=8cm]{SalmonLin75_10k}
 	\caption{With an increasingly large C parameter (C=10.000) the decision boundary may move too much towards one of the class clusters. In this example, the prediction of the orange datapoints is still correct, yet it is clearly visible that some data points are dangerously close to the decision boundary.}%
 	\label{fig:largec}%
 \end{figure}
 
-% TODO: provide some mathematical background
-
 \subsubsection*{Plot style}
-\begin{itemize}
-	\item “Lines” showing the data points on a clear coordinate system.
-	\item “Heatmap” show the area of classified data classes.
-\end{itemize}
+Two different styles are available to chose from in our application: "Lines" and "Heatmap". The \textit{Lines}-style shows the pure data in a coordinate system with plain white background. While the \textit{Heatmap}-style not only displays the data points and the separating hyperplane, but also the colored background areas.
 
 \subsection{Explanation Tabs}
 
@@ -249,36 +248,18 @@ Below the SVM output, an explanation of SVMs is given.
 This explanation is split across multiple tabs
 that can be stepped through with the “forward” button.
 
-%\section{Implemented Views}
-
-%The primary tool is provided under \verb|/views/plotly.html|.
-%Other tools were used for debugging or tried out alternative approaches:
-
-%\begin{itemize}
-%\item \verb|/views/scatterplot.html|
-%\item \verb|/views/different_datasets.html|
-%\item \verb|/views/iris_shapes.html|
-%\item \verb|/views/gui.html|
-%\item \verb|/views/plotly.html|
-%\end{itemize}
-
-
-
-
-
+\newpage
 \section{Solved Challenges}
 
-During the implementation there were some challenges to overcome:
+While working on this project, several challenges were overcome.
 
-\begin{itemize}
-	\item Which technology to use (Plotly over D3.js)
-	\item Which Datasets to use (Iris, self generated ones)
-	\item Timeline (SVM Steps) 
-	\item Smoothing function
-	\item Margins of the Hyperplane
-	\item Polynomial / RBF kernel 
-\end{itemize}
+We needed to decide on which technology would be the most suitable for plotting our SVM output in the application. The two most common JavaScript frameworks for visualizing data, D3.js and Plotly.js, both seem to be similar in functionality and usability. Yet while experimenting with both frameworks, Plotly.js emerged as the more versatile and customizable software. Building upon D3.js, plotly offers a better developing experience due to its standard pipelines and configurations.\\
 
+The implementation of the SVM itself turned out to be a challenge, as we created a fully functional classificator out of its mathematical description. The JavaScript program can either be run, per default, without interaction with \verb|main_routine()| or show a stepwise convergence with \verb|main_routine_step()|. The Kernel functions needed to be written interchangeable and expandable. Already implemented are the \textit{linear}, \textit{polynomial} and the \textit{radial basis function} Kernels.\\
+
+During our search for the optimal plot configuration, we found out that creating a contour plot brings multiple advantages over drawing a line into a scatter plot for separation, as calculating the linear equation could be hard if not impossible, if non-linear Kernels are involved. We also discovered, that smoothing the now necessary z-axis data with the $sigmoid()$ function instead of the common $sign()$ achieves way better results.\\
+
+Finally, the actual data sets needed to be chosen for their representability in a tool meant for learning. This means the sets should neither have too much or too few data points, don't have too many dimensions and must be distinctly separable by the SVM. Following these constraints, we decided early on to include the well known \textit{Fischers Iris data set} into the application for its properties. Yet, after testing numerous different, publicly available, data sets, no other match was found. To offer at least one other set of data, we wrote our own data generator in python which produced the \textit{Salmon} set.
 
 
 
@@ -311,7 +292,6 @@ All in all, we have developed a well-functioning interactive tool to describe th
 We hope that it helps people learn about SVMs,
 and that it can possibly serve as the basis for future work on SVM visualization.
 
-\section{References}
 
 
 \end{document}
