@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-all: documentation.pdf
+all: documentation.pdf presentation.pdf
 
 %.pdf : %.tex
 	@ mkdir -p build
