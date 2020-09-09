@@ -47,15 +47,45 @@ In general, the norm of a vector $x = (x_1,...,x_N)$ is computed by using the eu
 \[||w||=\sqrt{(x_{1}^{2}+...+x_{N}^{2})}\]
 
 Expressed mathematically, we have to solve the following optimization problem: 
-\[min \frac{1}{2}||w||^{2} \]
+\[minimize \frac{1}{2}||w||^{2} \]
+by adjusting the parameters $w$, $b$ so the constraint:
+
+\[y_{i}(w * x_{i} + b) \geq 1,~ \space for~ \space 1 \leq i \leq m \] is met.
+
 
 This is a constrained optimization problem and such problems were solved by efficient methods, like for example: the Lagrangian multiplier method.\\
 
-EQUATION 3!!!\\
+\[
+	\mathcal{L}(w,b,\alpha) = \mathcal{f}(w)-\sum_{i=1}^{m}\alpha_{i}g_{i}(w,b)
+\]
+
+\[
+	\mathcal{L}(w,b,\alpha) = \frac{1}{2}||w||^{2}-\sum_{i=1}^{m}\alpha_{i}[y_{i}(w*x_{i}+b)-1]
+\]
+
+\[
+	\min_{w,b} \space \max_{a} \mathcal{L}(w,b,\alpha)
+\]
+subject to
+
+\[
+	\alpha_{i}\geq0, \space i=1,...,m \label{ref4}
+\]
 \\
 Vapnik and Cortes modified the original SVM to the Soft Margin SVM which means, in the classification case, outliers are allowed. The original optimization problem from (Form. 2) has been changed to (Form. 4): a slack variable and a hyper parameter C have been added. Regarding to this, outliers can now be on the “wrong side” but a hyperplane can still be found. The hyper parameter C can then be used to control how the SVM should deal with outliers. \\
 
-EQUATION 4 !!!\\
+\[
+	minimize_{w,b,\zeta}~ \space \frac{1}{2}||w||^{2} + C \sum_{i=1}^{m} \zeta_{i} \label{ref8}
+\]
+subject to
+
+\[
+	y_{i}(w*x_{i}+b) \geq 1-\zeta_{i}
+\]
+
+\[
+	\zeta_{i} \geq 0~ \space for~ \space any~ \space i=1,...,m
+\]
 \\
 
 
