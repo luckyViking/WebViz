@@ -1,4 +1,4 @@
-\documentclass{scrartcl}
+\documentclass[parskip=half]{scrartcl}
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{subfig}
@@ -240,7 +240,7 @@ Support vectors are displayed as X's.
 \end{figure}
 
 \subsubsection*{Plot style}
-Two different styles are available to chose from in our application: "Lines" and "Heatmap". The \textit{Lines}-style shows the pure data in a coordinate system with plain white background. While the \textit{Heatmap}-style not only displays the data points and the separating hyperplane, but also the colored background areas.
+Two different styles are available to chose from in our application: “Lines” and “Heatmap”. The \textit{Lines}-style shows the pure data in a coordinate system with plain white background. While the \textit{Heatmap}-style not only displays the data points and the separating hyperplane, but also the colored background areas.
 
 \subsection{Explanation Tabs}
 
@@ -253,15 +253,13 @@ that can be stepped through with the “forward” button.
 
 While working on this project, several challenges were overcome.
 
-We needed to decide on which technology would be the most suitable for plotting our SVM output in the application. The two most common JavaScript frameworks for visualizing data, D3.js and Plotly.js, both seem to be similar in functionality and usability. Yet while experimenting with both frameworks, Plotly.js emerged as the more versatile and customizable software. Building upon D3.js, plotly offers a better developing experience due to its standard pipelines and configurations.\\
+We needed to decide on which technology would be the most suitable for plotting our SVM output in the application. The two most common JavaScript frameworks for visualizing data, D3.js and Plotly.js, both seem to be similar in functionality and usability. Yet while experimenting with both frameworks, Plotly.js emerged as the more versatile and customizable software. Building upon D3.js, plotly offers a better developing experience due to its standard pipelines and configurations.
 
-The implementation of the SVM itself turned out to be a challenge, as we created a fully functional classificator out of its mathematical description. The JavaScript program can either be run, per default, without interaction with \verb|main_routine()| or show a stepwise convergence with \verb|main_routine_step()|. The Kernel functions needed to be written interchangeable and expandable. Already implemented are the \textit{linear}, \textit{polynomial} and the \textit{radial basis function} Kernels.\\
+The implementation of the SVM itself turned out to be a challenge, as we created a fully functional classificator out of its mathematical description. The JavaScript program can either be run, per default, without interaction with \verb|main_routine()| or show a stepwise convergence with \verb|main_routine_step()|. The Kernel functions needed to be written interchangeable and expandable. Already implemented are the \textit{linear}, \textit{polynomial} and the \textit{radial basis function} Kernels.
 
-During our search for the optimal plot configuration, we found out that creating a contour plot brings multiple advantages over drawing a line into a scatter plot for separation, as calculating the linear equation could be hard if not impossible, if non-linear Kernels are involved. We also discovered, that smoothing the now necessary z-axis data with the $sigmoid()$ function instead of the common $sign()$ achieves way better results.\\
+During our search for the optimal plot configuration, we found out that creating a contour plot brings multiple advantages over drawing a line into a scatter plot for separation, as calculating the linear equation could be hard if not impossible, if non-linear Kernels are involved. We also discovered, that smoothing the now necessary z-axis data with the $sigmoid()$ function instead of the common $sign()$ achieves way better results.
 
 Finally, the actual data sets needed to be chosen for their representability in a tool meant for learning. This means the sets should neither have too much or too few data points, don't have too many dimensions and must be distinctly separable by the SVM. Following these constraints, we decided early on to include the well known \textit{Fischers Iris data set} into the application for its properties. Yet, after testing numerous different, publicly available, data sets, no other match was found. To offer at least one other set of data, we wrote our own data generator in python which produced the \textit{Salmon} set.
-
-
 
 \section{Conclusion \& Future Work}
 
