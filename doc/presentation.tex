@@ -217,22 +217,21 @@
 
 \end{frame}
 
-\begin{frame}[fragile]
-	\frametitle{Solved Challenges: SVM Implementation}
-  Implemented API:
+\begin{frame}
+	\frametitle{Solved Challenges: Plotting}
+  % * 1 slide: plotting challenges (sigmoid smoothing, countours vs drawing a line)
   \begin{itemize}
-  \item \verb|svm = new SVM({ X, y, C, tol, kernel })|
+  \item smoothing
     \begin{itemize}
-    \item \verb|kernel| can be any function \verb|(x, y) -> float|
+    \item use sigmoid function instead of sign
     \end{itemize}
-  \item \verb|classification = svm.output(point)|
-  \item \verb|svm.main_routine()|
-  \item \verb|svm.main_routine_step({examine_all})|
+  \item drawing the separating boundary
+    \begin{itemize}
+    \item drawing a line doesn't work for all kernels
+    \item calculating line equation is difficult
+    \item simple trick: use a 2-level contour plot
+    \end{itemize}
   \end{itemize}
-
-  \vspace{\baselineskip}
-  \small
-  based on \textit{Support Vector Machines Succinctly} by Alexandre Kowalczyk
 \end{frame}
 
 \begin{frame}
@@ -263,23 +262,23 @@
 
 \end{frame}
 
-\begin{frame}
-	\frametitle{Solved Challenges: Plotting}
-  % * 1 slide: plotting challenges (sigmoid smoothing, countours vs drawing a line)
+\begin{frame}[fragile]
+	\frametitle{Solved Challenges: SVM Implementation}
+  Implemented API:
   \begin{itemize}
-  \item smoothing
+  \item \verb|svm = new SVM({ X, y, C, tol, kernel })|
     \begin{itemize}
-    \item use sigmoid function instead of sign
+    \item \verb|kernel| can be any function \verb|(x, y) -> float|
     \end{itemize}
-  \item drawing the separating boundary
-    \begin{itemize}
-    \item drawing a line doesn't work for all kernels
-    \item calculating line equation is difficult
-    \item simple trick: use a 2-level contour plot
-    \end{itemize}
+  \item \verb|classification = svm.output(point)|
+  \item \verb|svm.main_routine()|
+  \item \verb|svm.main_routine_step({examine_all})|
   \end{itemize}
-\end{frame}
 
+  \vspace{\baselineskip}
+  \small
+  based on \textit{Support Vector Machines Succinctly} by Alexandre Kowalczyk
+\end{frame}
 
 \section{Conclusion}
 \begin{frame}
